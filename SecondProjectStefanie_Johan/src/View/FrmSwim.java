@@ -87,6 +87,32 @@ public class FrmSwim extends javax.swing.JFrame {
         loadSwimmers();
     }
     
+    private String getCode() {
+        String code = "";
+        for (int i = 0; i < 6; i++) {
+            code += (int) (Math.random() * 9 + 1);
+        }
+        return code;
+    }
+    
+    private void hideBtn(boolean ver){
+        btnJug1.setVisible(ver);
+        btnJug1Info.setVisible(ver);
+        btnJug2.setVisible(ver);
+        btnJug2Info.setVisible(ver);
+        btnJug3.setVisible(ver);
+        btnJug3Info.setVisible(ver);
+        btnJug4.setVisible(ver);
+        btnJug4Info.setVisible(ver);
+        btnJug5.setVisible(ver);
+        btnJug5Info.setVisible(ver);
+    }
+    
+    private void update(int value){
+        Controllers.Swimmer s = new Swimmer(lSwimming.get(value-1));
+        s.update();
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
