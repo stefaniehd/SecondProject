@@ -253,6 +253,38 @@ public class FrmSwim extends javax.swing.JFrame {
         };
         timer.schedule(taskRun, 100, 100);
     }
+     
+     private void cronom() {
+        cronom= new Timer();
+        taskCronom = new TimerTask() {
+            int mili = 0;
+            int seg = 0;
+            int min = 0;
+            int hour = 0;
+
+            @Override
+            public void run() {
+                mili++;
+                if (mili == 999) {
+                    seg++;
+                    mili = 0;
+                }
+                if (seg == 59) {
+                    min++;
+                    seg = 0;
+                }
+                if (min == 59 && seg == 59 && mili == 999) {
+                    hour++;
+                    min = 0;
+                    seg = 0;
+                    mili = 0;
+                }
+                String time = hour + ":" + min + ":" + seg + ":" + mili;
+                lblTime.setText("Time: " + time);
+            }
+        };
+        cronom.schedule(taskCronom, 0, 1);
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
