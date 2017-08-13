@@ -285,6 +285,71 @@ public class FrmSwim extends javax.swing.JFrame {
         };
         cronom.schedule(taskCronom, 0, 1);
     }
+     
+     private void chooseSwimmers() {
+        int count = Integer.parseInt(spCount.getValue().toString());
+        for (int i = 0; i < count; i++) {
+            int random = (int) (Math.random() * (lSwimmer.size() - 1) + 0);
+            lSwimming.add(lSwimmer.get(random));
+            lSwimmer.remove(random);
+            generateSwimmers(i);
+        }
+        loadSwimmers();
+    }
+    
+    private void generateSwimmers(int count){
+        for (int i = 0; i < lSwimming.size(); i++) {
+            String texto = "";
+            switch(i){
+                case 0:
+                    texto = "Name: " + lSwimming.get(0).getName()+" "
+                            +lSwimming.get(0).getLastName();
+                    btnJug1Info.setToolTipText(texto);
+                    btnJug1.setVisible(true);
+                    btnJug1Info.setVisible(true);
+                    break;
+                case 1:
+                    texto = "Name: " + lSwimming.get(1).getName()+" "
+                            +lSwimming.get(1).getLastName();
+                    btnJug2Info.setToolTipText(texto);
+                    btnJug2.setVisible(true);
+                    btnJug2Info.setVisible(true);
+                    break;
+                case 2:
+                    texto = "Name: " + lSwimming.get(2).getName()+" "
+                            +lSwimming.get(2).getLastName();
+                    btnJug3Info.setToolTipText(texto);
+                    btnJug3.setVisible(true);
+                    btnJug3Info.setVisible(true);
+                    break;
+                case 3:
+                    texto = "Name: " + lSwimming.get(3).getName()+" "
+                            +lSwimming.get(3).getLastName();
+                    btnJug4Info.setToolTipText(texto);
+                    btnJug4.setVisible(true);
+                    btnJug4Info.setVisible(true);
+                    break;
+                case 4:
+                    texto = "Name: " + lSwimming.get(4).getName()+" "
+                            +lSwimming.get(4).getLastName();
+                    btnJug5Info.setToolTipText(texto);
+                    btnJug5.setVisible(true);
+                    btnJug5Info.setVisible(true);
+                    break;
+            }
+        }
+    }
+    
+    private void addChoose() {
+        int select = lChoose.getSelectedIndex();
+        int count = Integer.parseInt(spCount.getValue().toString());
+        if (select > -1 && (lSwimming.size()<count)) {
+            lSwimming.add(lSwimmer.get(select));
+            lSwimmer.remove(select);
+            model.remove(select);
+            generateSwimmers(lSwimming.size()-1);
+        }
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
