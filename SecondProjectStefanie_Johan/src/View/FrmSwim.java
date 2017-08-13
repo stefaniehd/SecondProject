@@ -63,6 +63,30 @@ public class FrmSwim extends javax.swing.JFrame {
         }
     }
     
+    private void addSwimmer() {
+        Models.Swimmer swimmer = new Models.Swimmer();
+        swimmer.setName(txtName.getText().trim());
+        swimmer.setLastName(txtLastName.getText().trim());
+        swimmer.setCode(getCode());
+        swimmer.setGanadas(0);
+        swimmer.setPerdidas(0);
+        Controllers.Swimmer s = new Swimmer(swimmer);
+        s.add();
+        loadSwimmers();
+    }
+    
+    private void deleteSwimmer() {
+        int select = lSwimmers.getSelectedIndex();
+        if (select > -1) {
+            Controllers.Swimmer s = new Swimmer(lSwimmer.get(select));
+            s.delete();
+            loadSwimmers();
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione una persona");
+        }
+        loadSwimmers();
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
