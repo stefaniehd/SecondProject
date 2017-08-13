@@ -351,6 +351,36 @@ public class FrmSwim extends javax.swing.JFrame {
         }
     }
     
+    private void clean(){
+        loadSwimmers();
+        hideBtn(false);
+        posicion=1;
+        lSwimming = new LinkedList<>();
+        lblTime.setText("Time");
+        btnJug1Info.setText("...");
+        btnJug2Info.setText("...");
+        btnJug3Info.setText("...");
+        btnJug4Info.setText("...");
+        btnJug5Info.setText("...");
+        btnJug1Info.setToolTipText("");
+        btnJug2Info.setToolTipText("");
+        btnJug3Info.setToolTipText("");
+        btnJug4Info.setToolTipText("");
+        btnJug5Info.setToolTipText("");
+        btnJug1.move(10, btnJug1.getY());
+        btnJug2.move(10, btnJug2.getY());
+        btnJug3.move(10, btnJug3.getY());
+        btnJug4.move(10, btnJug4.getY());
+        btnJug5.move(10, btnJug5.getY());
+    }
+    
+    private void velocityRandom(){
+        for (int i = lSwimming.size()-1; i >= 0; i--) {
+            int random = (int)(Math.random()*5+1);
+            lSwimming.get(i).setVelocity(random);
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
