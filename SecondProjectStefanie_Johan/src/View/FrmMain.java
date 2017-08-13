@@ -24,19 +24,12 @@ public class FrmMain extends javax.swing.JFrame {
     }
 
     private void load() {
-        try{
-        ImageIcon welcome = new ImageIcon("welcome.png");
-        Image image = welcome.getImage(); // transform it 
-        Image newImg = image.getScaledInstance(lblWelcome.getWidth(), lblWelcome.getHeight(), java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-        welcome = new ImageIcon(newImg);
-        lblWelcome.setIcon(welcome);
-        }catch(Exception e){
-            
-        }
+            ImageIcon welcome = new ImageIcon("welcome.png");
+            Image image = welcome.getImage();
+            Image newImg = image.getScaledInstance(lblWelcome.getWidth(), lblWelcome.getHeight(), java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+            welcome = new ImageIcon(newImg);
+            lblWelcome.setIcon(welcome);
     }
-    
-
-  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -114,12 +107,12 @@ public class FrmMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FrmSwim oSwim=new FrmSwim();
+        FrmSwim oSwim = new FrmSwim();
         oSwim.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        FrmAnswer oAnswer=new FrmAnswer();
+        FrmAnswer oAnswer = new FrmAnswer();
         oAnswer.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
