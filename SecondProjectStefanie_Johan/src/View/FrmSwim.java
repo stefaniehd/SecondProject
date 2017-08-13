@@ -113,6 +113,147 @@ public class FrmSwim extends javax.swing.JFrame {
         s.update();
     }
     
+     private void go() {
+        velocityRandom();
+        cronom();
+        posicion=1;
+        timer=new Timer();
+        taskRun = new TimerTask() {
+            @Override
+            public void run() {
+                String time = lblTime.getText();
+                if ((btnJug1.getX() + btnJug1.getWidth()) == (pPool.getX() + pPool.getWidth())) {
+                    if (!lSwimming.get(0).isFinish()) {
+                        lSwimming.get(0).setTime(time);                        
+                        lSend.add(lSwimming.get(0));
+                        lSwimming.get(0).setVelocity(0);
+                        lSwimming.get(0).setFinish(true);
+                        btnJug1Info.setText(String.valueOf(posicion));
+                        if (posicion==1) {
+                            lSwimming.get(0).setGanadas(lSwimming.get(0).getGanadas()+1);
+                        }else{
+                            lSwimming.get(0).setPerdidas(lSwimming.get(0).getPerdidas()+1);
+                        }
+                        update(posicion);
+                        posicion++;
+                    }
+                }
+                if ((btnJug2.getX() + btnJug2.getWidth()) == (pPool.getX() + pPool.getWidth())) {
+                    if (!lSwimming.get(1).isFinish()) {
+                        lSwimming.get(1).setTime(time);                        
+                        lSend.add(lSwimming.get(1));
+                        lSwimming.get(1).setVelocity(0);
+                        lSwimming.get(1).setFinish(true);
+                        btnJug2Info.setText(String.valueOf(posicion));
+                        if (posicion==1) {
+                            lSwimming.get(1).setGanadas(lSwimming.get(1).getGanadas()+1);
+                        }else{
+                            lSwimming.get(1).setPerdidas(lSwimming.get(1).getPerdidas()+1);
+                        }
+                        update(posicion);
+                        posicion++;
+                    }
+                }
+                if ((btnJug3.getX() + btnJug3.getWidth()) == (pPool.getX() + pPool.getWidth())) {
+                    if (!lSwimming.get(2).isFinish()) {
+                        lSwimming.get(2).setTime(time);                        
+                        lSend.add(lSwimming.get(2));
+                        lSwimming.get(2).setVelocity(0);
+                        lSwimming.get(2).setFinish(true);
+                        btnJug3Info.setText(String.valueOf(posicion));
+                        if (posicion==1) {
+                            lSwimming.get(2).setGanadas(lSwimming.get(2).getGanadas()+1);
+                        }else{
+                            lSwimming.get(2).setPerdidas(lSwimming.get(2).getPerdidas()+1);
+                        }
+                        update(posicion);
+                        posicion++;
+                    }
+                }
+                if ((btnJug4.getX() + btnJug4.getWidth()) == (pPool.getX() + pPool.getWidth())) {
+                    if (!lSwimming.get(3).isFinish()) {
+                        lSwimming.get(3).setTime(time);                        
+                        lSend.add(lSwimming.get(3));
+                        lSwimming.get(3).setVelocity(0);
+                        lSwimming.get(3).setFinish(true);
+                        btnJug4Info.setText(String.valueOf(posicion));
+                        if (posicion==1) {
+                            lSwimming.get(3).setGanadas(lSwimming.get(3).getGanadas()+1);
+                        }else{
+                            lSwimming.get(3).setPerdidas(lSwimming.get(3).getPerdidas()+1);
+                        }
+                        update(posicion);
+                        posicion++;
+                    }
+                }
+                if ((btnJug5.getX() + btnJug5.getWidth()) == (pPool.getX() + pPool.getWidth())) {
+                    if (!lSwimming.get(4).isFinish()) {
+                        lSwimming.get(4).setTime(time);                        
+                        lSend.add(lSwimming.get(4));
+                        lSwimming.get(4).setVelocity(0);
+                        lSwimming.get(4).setFinish(true);
+                        btnJug5Info.setText(String.valueOf(posicion));
+                        if (posicion==1) {
+                            lSwimming.get(4).setGanadas(lSwimming.get(4).getGanadas()+1);
+                        }else{
+                            lSwimming.get(4).setPerdidas(lSwimming.get(4).getPerdidas()+1);
+                        }
+                        update(posicion);
+                        posicion++;
+                    }
+                }
+                if (btnJug1.isVisible()) {
+                    if (btnJug1.getX() + lSwimming.get(0).getVelocity() + btnJug1.getWidth() > (pPool.getX() + pPool.getWidth())) {
+                        btnJug1.move((pPool.getX() + pPool.getWidth()) - btnJug1.getWidth(), btnJug1.getY());
+                    } else {
+                        btnJug1.move(btnJug1.getX() + lSwimming.get(0).getVelocity(), btnJug1.getY());
+                    }
+                }
+                if (btnJug2.isVisible()) {
+                    if (btnJug2.getX() + lSwimming.get(1).getVelocity() + btnJug2.getWidth() > (pPool.getX() + pPool.getWidth())) {
+                        btnJug2.move((pPool.getX() + pPool.getWidth()) - btnJug2.getWidth(), btnJug2.getY());
+                    } else {
+                        btnJug2.move(btnJug2.getX() + lSwimming.get(1).getVelocity(), btnJug2.getY());
+                    }
+                }
+                if (btnJug3.isVisible()) {
+                    if (btnJug3.getX() + lSwimming.get(2).getVelocity() + btnJug3.getWidth() > (pPool.getX() + pPool.getWidth())) {
+                        btnJug3.move((pPool.getX() + pPool.getWidth()) - btnJug3.getWidth(), btnJug3.getY());
+                    } else {
+                        btnJug3.move(btnJug3.getX() + lSwimming.get(2).getVelocity(), btnJug3.getY());
+                    }
+                }
+                if (btnJug4.isVisible()) {
+                    if (btnJug4.getX() + lSwimming.get(3).getVelocity() + btnJug4.getWidth() > (pPool.getX() + pPool.getWidth())) {
+                        btnJug4.move((pPool.getX() + pPool.getWidth()) - btnJug4.getWidth(), btnJug4.getY());
+                    } else {
+                        btnJug4.move(btnJug1.getX() + lSwimming.get(3).getVelocity(), btnJug4.getY());
+                    }
+                }
+                if (btnJug5.isVisible()) {
+                    if (btnJug5.getX() + lSwimming.get(4).getVelocity() + btnJug5.getWidth() > (pPool.getX() + pPool.getWidth())) {
+                        btnJug5.move((pPool.getX() + pPool.getWidth()) - btnJug5.getWidth(), btnJug5.getY());
+                    } else {
+                        btnJug5.move(btnJug5.getX() + lSwimming.get(4).getVelocity(), btnJug5.getY());
+                    }
+                }
+                boolean fin = true;
+                for (int i = 0; i < lSwimming.size(); i++) {
+                    if (!lSwimming.get(i).isFinish()) {
+                        fin = false;
+                    }
+                }
+                if (fin) {
+                    cronom.cancel();
+                    taskCronom.cancel();
+                    timer.cancel();
+                    taskRun.cancel();
+                }
+            }
+        };
+        timer.schedule(taskRun, 100, 100);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
