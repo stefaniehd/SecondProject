@@ -23,8 +23,20 @@ public class FrmAnswer extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         game = new String[8][5];
+        troubles();
     }
 
+    private void position(){
+        for (int i = 0; i < game.length; i++) {
+            for (int j = 0; j < game[i].length; j++) {
+                if(game[i][j].equals("p")){
+                    JButton b = getButton(i+"_"+j);
+                    b.setBackground(Color.green);
+                }
+            }
+        }
+    }
+    
     private void troubles() {
         int count = 0;
         while (count < 10) {
@@ -205,7 +217,8 @@ public class FrmAnswer extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         btn1_0.setBackground(new java.awt.Color(204, 204, 204));
         btn1_0.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N

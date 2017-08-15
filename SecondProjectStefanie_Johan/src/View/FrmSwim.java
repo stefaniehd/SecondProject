@@ -340,13 +340,17 @@ public class FrmSwim extends javax.swing.JFrame {
 
     private void chooseSwimmers() {
         int count = Integer.parseInt(spCount.getValue().toString());
-        for (int i = 0; i < count; i++) {
-            int random = (int) (Math.random() * (lSwimmer.size() - 1) + 0);
-            lSwimming.add(lSwimmer.get(random));
-            lSwimmer.remove(random);
-            generateSwimmers(i);
+        if (count <= lSwimmer.size()) {
+            for (int i = 0; i < count; i++) {
+                int random = (int) (Math.random() * (lSwimmer.size() - 1) + 0);
+                lSwimming.add(lSwimmer.get(random));
+                lSwimmer.remove(random);
+                generateSwimmers(i);
+            }
+            loadSwimmers();
+        }else{
+            JOptionPane.showMessageDialog(null, "No hay tantos competidores!");
         }
-        loadSwimmers();
     }
 
     private void generateSwimmers(int count) {
@@ -482,6 +486,7 @@ public class FrmSwim extends javax.swing.JFrame {
         btnCleanSta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
