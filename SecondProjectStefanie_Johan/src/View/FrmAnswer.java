@@ -38,17 +38,32 @@ public class FrmAnswer extends javax.swing.JFrame {
         troubles();
         loadQuestions();
     }
-    
-    private void play(int row, int column){
-        if (((row==(rowActual+1))&&(column==(columnactual)))
-                ||((row==(rowActual))&&(column==(columnactual+1)))) {
+
+    private void play(int row, int column) {
+        if (((row == (rowActual + 1)) && (column == (columnactual)))
+                || ((row == (rowActual)) && (column == (columnactual + 1)))) {
             int answer = ask();
-            if (answer==0) {
+            if (answer == 0) {
                 puntosGanados++;
-            }else{
+            } else {
                 puntosPerdidos++;
+                newTrouble();
             }
         }
+    }
+
+    private void newTrouble() {
+        boolean pass = true;
+        do {
+            int row = (int) (Math.random() * 7 + 0);
+            int column = (int) (Math.random() * 4 + 0);
+            String position = row + "_" + column;
+            if (("".equals(game[row][column].getText())) && (!position.equals("0_0")) && (!position.equals("7_5"))) {
+                game[row][column].setText("x");
+                pass = false;
+                game[row][column].setBackground(Color.red);
+            }
+        } while (pass);
     }
 
     private int ask() {
@@ -87,11 +102,10 @@ public class FrmAnswer extends javax.swing.JFrame {
                 row = (int) (Math.random() * 7 + 0);
                 column = (int) (Math.random() * 4 + 0);
                 String position = row + "_" + column;
-                if (("".equals(game[row][column].getText()))&&(!position.equals("0_0")) && (!position.equals("7_5"))) {
+                if (("".equals(game[row][column].getText())) && (!position.equals("0_0")) && (!position.equals("7_5"))) {
                     game[row][column].setText("x");
                     pass = false;
                     game[row][column].setBackground(Color.red);
-                    System.out.println("lksn");
                     count++;
                 }
             } while (pass);
@@ -105,7 +119,7 @@ public class FrmAnswer extends javax.swing.JFrame {
             int row = (int) (Math.random() * 7 + 0);
             int column = (int) (Math.random() * 4 + 0);
             String position = row + "_" + column;
-            if (("".equals(game[row][column].getText()))&&(!position.equals("0_0")) && (!position.equals("7_5"))) {
+            if (("".equals(game[row][column].getText())) && (!position.equals("0_0")) && (!position.equals("7_5"))) {
                 game[row][column].setText("c");
                 fin = false;
             }
@@ -765,7 +779,7 @@ public class FrmAnswer extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void btn0_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0_0ActionPerformed
-        
+
     }//GEN-LAST:event_btn0_0ActionPerformed
 
     /**
