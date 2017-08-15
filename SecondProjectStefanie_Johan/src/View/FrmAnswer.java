@@ -5,9 +5,11 @@
  */
 package View;
 
+import Controllers.Question;
 import java.awt.Color;
+import java.util.LinkedList;
 import javax.swing.JButton;
-
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,28 +17,66 @@ import javax.swing.JButton;
  */
 public class FrmAnswer extends javax.swing.JFrame {
 
-    private final String[][] game;
+    private final JButton[][] game;
+    private LinkedList<Models.Question> question;
+    private int rowActual;
+    private int columnactual;
+    private int puntosGanados;
+    private int puntosPerdidos;
+
     /**
      * Creates new form FrmAnswer
      */
     public FrmAnswer() {
         initComponents();
         setLocationRelativeTo(null);
-        game = new String[8][5];
+        game = new JButton[8][5];
+        question = new LinkedList<>();
+        loadButton();
+        rowActual = 0;
+        columnactual = 0;
         troubles();
+        loadQuestions();
     }
-
-    private void position(){
-        for (int i = 0; i < game.length; i++) {
-            for (int j = 0; j < game[i].length; j++) {
-                if(game[i][j].equals("p")){
-                    JButton b = getButton(i+"_"+j);
-                    b.setBackground(Color.green);
-                }
+    
+    private void play(int row, int column){
+        if (((row==(rowActual+1))&&(column==(columnactual)))
+                ||((row==(rowActual))&&(column==(columnactual+1)))) {
+            int answer = ask();
+            if (answer==0) {
+                puntosGanados++;
+            }else{
+                puntosPerdidos++;
             }
         }
     }
-    
+
+    private int ask() {
+        int rdm = (int) (Math.random() * (question.size() - 1) + 0);
+        String message = question.get(rdm).getQuestion();
+        String uno = question.get(rdm).getAnswerOne();
+        String dos = question.get(rdm).getAnswerTwo();
+        Object[] botones = {uno, dos};
+        int answer = JOptionPane.showOptionDialog(null, message, "Pregunta", JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
+        question.remove(rdm);
+        return answer;
+    }
+
+    private void loadButton() {
+        for (int i = 0; i < game.length; i++) {
+            for (int j = 0; j < game[i].length; j++) {
+                JButton b = getButton(i + "_" + j);
+                game[i][j] = b;
+            }
+        }
+    }
+
+    private void loadQuestions() {
+        Controllers.Question q = new Question();
+        question = q.select();
+    }
+
     private void troubles() {
         int count = 0;
         while (count < 10) {
@@ -47,38 +87,31 @@ public class FrmAnswer extends javax.swing.JFrame {
                 row = (int) (Math.random() * 7 + 0);
                 column = (int) (Math.random() * 4 + 0);
                 String position = row + "_" + column;
-                Object dato = game[row][column];
-                if (dato == null && (!position.equals("0_0")) && (!position.equals("7_5"))) {
-                    String but = row + "_" + column;
-                    JButton button = getButton(but);
-                    game[row][column] = "x";
+                if (("".equals(game[row][column].getText()))&&(!position.equals("0_0")) && (!position.equals("7_5"))) {
+                    game[row][column].setText("x");
                     pass = false;
-                    button.setBackground(Color.red);
-                    button.setText("x");
+                    game[row][column].setBackground(Color.red);
+                    System.out.println("lksn");
                     count++;
                 }
             } while (pass);
         }
         comodin();
     }
-    
-    private void comodin(){
+
+    private void comodin() {
         boolean fin = true;
-        do{
+        do {
             int row = (int) (Math.random() * 7 + 0);
             int column = (int) (Math.random() * 4 + 0);
             String position = row + "_" + column;
-            Object dato = game[row][column];
-            if (dato == null && (!position.equals("0_0")) && (!position.equals("7_5"))) {
-                    String but = row + "_" + column;
-                    JButton button = getButton(but);
-                    button.setText("c");
-                    game[row][column] = "c";
-                    fin = false;
-                }
-        }while(fin);
+            if (("".equals(game[row][column].getText()))&&(!position.equals("0_0")) && (!position.equals("7_5"))) {
+                game[row][column].setText("c");
+                fin = false;
+            }
+        } while (fin);
     }
-    
+
     private JButton getButton(String position) {
         switch (position) {
             case "0_0":
@@ -164,6 +197,7 @@ public class FrmAnswer extends javax.swing.JFrame {
         }
         return null;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -253,6 +287,11 @@ public class FrmAnswer extends javax.swing.JFrame {
         btn0_0.setBackground(new java.awt.Color(0, 153, 153));
         btn0_0.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
         btn0_0.setText("Inicio");
+        btn0_0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn0_0ActionPerformed(evt);
+            }
+        });
 
         btn0_1.setBackground(new java.awt.Color(204, 204, 204));
         btn0_1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
@@ -722,8 +761,12 @@ public class FrmAnswer extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
-        
+
     }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void btn0_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0_0ActionPerformed
+        
+    }//GEN-LAST:event_btn0_0ActionPerformed
 
     /**
      * @param args the command line arguments
