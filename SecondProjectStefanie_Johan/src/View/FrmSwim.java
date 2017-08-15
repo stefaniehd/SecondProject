@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Tefa-PC
+ * @author Stefanie
  */
 public class FrmSwim extends javax.swing.JFrame {
 
@@ -31,6 +31,7 @@ public class FrmSwim extends javax.swing.JFrame {
     private LinkedList<Models.Swimmer> lSwimming;
     private int posicion;
     private Models.Statistics statisticas;
+    private Controllers.Statistics statis;
 
     /**
      * Creates new form FrmSwim
@@ -48,11 +49,13 @@ public class FrmSwim extends javax.swing.JFrame {
         System.out.println(pPool.getWidth() + pPool.getX());
         lChoose.setModel(model);
         statisticas = new Models.Statistics();
+        statis = new Statistics();
         pPool.setSize(740, 250);
         open = false;
         posicion = 1;
         loadSwimmers();
         hideBtn(false);
+        sta();
     }
 
     private void loadSwimmers() {
@@ -120,9 +123,8 @@ public class FrmSwim extends javax.swing.JFrame {
 
     private void go() {
         velocityRandom();
-        statisticas.setRaces(statisticas.getRaces()+1);
         cronom();
-        posicion = 0;
+        posicion = 1;
         timer = new Timer();
         taskRun = new TimerTask() {
             @Override
@@ -215,66 +217,88 @@ public class FrmSwim extends javax.swing.JFrame {
                         fin = false;
                     }
                 }
+                if (s.size() > 0) {
+                    winner(s);
+                }
                 if (fin) {
                     cronom.cancel();
                     taskCronom.cancel();
                     timer.cancel();
                     taskRun.cancel();
+                    statisticas.setRaces(statisticas.getRaces() + 1);
+                    updateStatistics();
                 }
-                if (s.size() > 0) {
-                    winner(s);
-                }
-                if (s.size()>1) {
-                    statisticas.setEmpates(statisticas.getEmpates()+1);
-                }
-                posicion+=s.size();
+                posicion += s.size();
             }
         };
         timer.schedule(taskRun, 100, 100);
     }
-    
-    private void cleanStatistics(){
-        Controllers.Statistics s = new Statistics(statisticas);
-        s.clean();
-        statisticas = new Models.Statistics();
-    }
-    
-    private void report(){
+
+    private void updateStatistics() {
+        loadSwimmers();
         statisticas.setSwimmer(lSwimmer);
-        Controllers.Statistics s = new Statistics(statisticas);
-        JOptionPane.showMessageDialog(this, s.report());
+        statis = new Statistics(statisticas);
+        statis.update();
+    }
+
+    private void cleanStatistics() {
+        statisticas = new Models.Statistics();
+        statisticas.setSwimmer(lSwimmer);
+        statis = new Statistics(statisticas);
+        statis.clean();
+    }
+
+    private void sta() {
+        loadSwimmers();
+        statisticas.setSwimmer(lSwimmer);
+        statis = new Statistics(statisticas);
+    }
+
+    private void report() {
+        sta();
+        JOptionPane.showMessageDialog(this, statis.report());
     }
 
     private void winner(LinkedList<Models.Swimmer> s) {
+        if (s.size() > 1) {
+            statisticas.setEmpates(statisticas.getEmpates() + 1);
+        }
+        int aux = 0;
         for (int i = s.size(); i >= 0; i--) {
-            int random = (int) (Math.random() * (s.size() - 1) * 0);
-            JButton b = null;
-            if (i == 0) {
-                s.get(random).setGanadas(s.get(random).getGanadas() + 1);
-            } else {
-                s.get(random).setPerdidas(s.get(random).getPerdidas() + 1);
-            }
-            for (int j = 0; j < lSwimming.size(); j++) {
-                if (lSwimming.get(j).getCode().equals(s.get(random).getCode())) {
-                    b = btn(j + 1);
-                    b.setText(String.valueOf(posicion+1));
+            aux = posicion;
+            try {
+                int random = (int) (Math.random() * (s.size() - 1) * 0);
+                JButton b = null;
+                if (posicion == 1) {
+                    s.get(random).setGanadas(s.get(random).getGanadas() + 1);
+                } else {
+                    s.get(random).setPerdidas(s.get(random).getPerdidas() + 1);
                 }
+                for (int j = 0; j < lSwimming.size(); j++) {
+                    if (lSwimming.get(j).getCode().equals(s.get(random).getCode())) {
+                        b = btn(j);
+                        b.setText(String.valueOf(aux));
+                        aux += j;
+                    }
+                }
+                update(s.get(random));
+                s.remove(random);
+            } catch (Exception e) {
             }
-            update(s.get(random));
         }
     }
 
     private JButton btn(int num) {
         switch (num) {
-            case 1:
+            case 0:
                 return this.btnJug1Info;
-            case 2:
+            case 1:
                 return this.btnJug2Info;
-            case 3:
+            case 2:
                 return this.btnJug3Info;
-            case 4:
+            case 3:
                 return this.btnJug4Info;
-            case 5:
+            case 4:
                 return this.btnJug5Info;
         }
         return null;

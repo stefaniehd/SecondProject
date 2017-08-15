@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author Magdalena
+ * @author Stefanie
  */
 public class Statistics {
 
@@ -65,32 +65,52 @@ public class Statistics {
         this.swimmer = swimmer;
     }
 
-    public void clean(){
-        fileManager.write("statistics.txt", 0+";"+0);
+    public void clean() {
+        fileManager.write("Statistics.txt", "0;0");
     }
-    
-    public String generateReport() {
-        int empates = 0;
-        int races = 0;
+
+    public Models.Statistics load() {
+        Models.Statistics s = new Statistics();
+        String[] text = fileManager.read("Statistics.txt").split(";");
         try {
-            String[] text = fileManager.read("statistics.txt").split(";");
-            empates = Integer.parseInt(text[0]);
-            races = Integer.parseInt(text[1]);
+            s.setEmpates(Integer.parseInt(text[0]));
+            s.setRaces(Integer.parseInt(text[1]));
         } catch (Exception e) {
         }
+        return s;
+    }
+
+    public String generateReport() {
         String result = "";
-        empates += this.getEmpates();
-        races += this.getRaces();
         for (int i = 0; i < swimmer.size(); i++) {
             result += swimmer.get(i).getName() + " " + swimmer.get(i).getLastName() + " ha ganado "
-                    + swimmer.get(i).getGanadas() + " veces\n";
+                    + swimmer.get(i).getGanadas();
+            if (swimmer.get(i).getGanadas() == 1) {
+                result += " vez\n";
+            } else {
+                result += " veces\n";
+            }
         }
         result += "Carreras efectuadas: " + this.getRaces();
-        result += "\n"+ganador() + " ha ganado más veces.\n";
+        result += "\n" + ganador() + " ha ganado más veces.\n";
         result += perdedor() + " ha perdido más veces.\n";
-        result += "Empates registrados: " + this.getEmpates()+"\n";
-        fileManager.write("statistics.txt", this.getRaces() + ";" + this.getEmpates());
+        result += "Empates registrados: " + this.getEmpates() + "\n";
         return result;
+    }
+
+    public void update() {
+        int emp = 0;
+        int carreras = 0;
+        Models.Statistics s = this.load();
+        try {
+            String[] text = fileManager.read("Statistics.txt").split(";");
+            emp = Integer.parseInt(text[0]);
+            carreras = Integer.parseInt(text[1]);
+        } catch (Exception e) {
+        }
+        emp += this.getEmpates();
+        carreras += this.getRaces();
+        fileManager.write("Statistics.txt", carreras + ";" + emp);
     }
 
     private String ganador() {

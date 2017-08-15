@@ -15,7 +15,7 @@ import java.io.IOException;
 
 /**
  *
- * @author Tefa-PC
+ * @author Stefanie
  */
 public class FileManager {
     public String read(String fileName) {

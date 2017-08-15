@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 
 /**
  *
- * @author Tefa-PC
+ * @author Stefanie
  */
 public class FrmMain extends javax.swing.JFrame {
 

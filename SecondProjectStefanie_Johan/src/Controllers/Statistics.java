@@ -7,9 +7,10 @@ package Controllers;
 
 /**
  *
- * @author Magdalena
+ * @author Stefanie
  */
 public class Statistics {
+
     private Models.Statistics statistics;
 
     public Statistics() {
@@ -19,12 +20,20 @@ public class Statistics {
     public Statistics(Models.Statistics statistics) {
         this.statistics = statistics;
     }
-    
-    public String report(){
+
+    public String report() {
         return this.statistics.generateReport();
     }
-    
-    public void clean(){
+
+    public void clean() {
         this.statistics.clean();
+    }
+
+    public Models.Statistics load() {
+        return this.statistics.load();
+    }
+
+    public void update() {
+        this.statistics.update();
     }
 }

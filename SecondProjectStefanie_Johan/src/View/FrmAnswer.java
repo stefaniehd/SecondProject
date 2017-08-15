@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Tefa-PC
+ * @author Stefanie
  */
 public class FrmAnswer extends javax.swing.JFrame {
 
