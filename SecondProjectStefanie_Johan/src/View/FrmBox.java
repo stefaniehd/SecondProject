@@ -7,6 +7,7 @@ package View;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,14 +17,26 @@ public class FrmBox extends javax.swing.JFrame {
 
     private Timer cronom;
     private TimerTask taskCronom;
+    private String random;
+    private boolean respesta;
+
     /**
      * Creates new form FrmBox
      */
     public FrmBox() {
         initComponents();
+        setLocationRelativeTo(null);
+        random();
+        time();
     }
 
-    private void time(){
+    private void random() {
+        for (int i = 0; i < 3; i++) {
+            random += String.valueOf((int) (Math.random() * 9 + 0));
+        }
+    }
+
+    private void time() {
         cronom = new Timer();
         taskCronom = new TimerTask() {
             int mili = 0;
@@ -54,6 +67,20 @@ public class FrmBox extends javax.swing.JFrame {
         };
         cronom.schedule(taskCronom, 0, 1);
     }
+
+    private void tryAnswer() {
+        String aux = sUno.getValue().toString();
+        aux += sDos.getValue().toString();
+        aux += sTres.getValue().toString();
+        if (aux.equals(random)) {
+            JOptionPane.showMessageDialog(null, "Felicidades, has acertado!");
+            respesta=true;
+        }else{
+            JOptionPane.showMessageDialog(null, "Mala suerte");
+            respesta=false;
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,6 +109,11 @@ public class FrmBox extends javax.swing.JFrame {
         lblTime.setText("Time");
 
         btnTry.setText("Try");
+        btnTry.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTryActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,6 +153,10 @@ public class FrmBox extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnTryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTryActionPerformed
+        tryAnswer();
+    }//GEN-LAST:event_btnTryActionPerformed
 
     /**
      * @param args the command line arguments
