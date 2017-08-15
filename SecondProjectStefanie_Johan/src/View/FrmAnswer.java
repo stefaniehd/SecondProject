@@ -5,6 +5,7 @@
  */
 package View;
 
+import java.awt.Color;
 import javax.swing.JButton;
 
 
@@ -14,13 +15,58 @@ import javax.swing.JButton;
  */
 public class FrmAnswer extends javax.swing.JFrame {
 
+    private final String[][] game;
     /**
      * Creates new form FrmAnswer
      */
     public FrmAnswer() {
         initComponents();
+        setLocationRelativeTo(null);
+        game = new String[8][5];
     }
 
+    private void troubles() {
+        int count = 0;
+        while (count < 10) {
+            int row = 0;
+            int column = 0;
+            boolean pass = true;
+            do {
+                row = (int) (Math.random() * 7 + 0);
+                column = (int) (Math.random() * 4 + 0);
+                String position = row + "_" + column;
+                Object dato = game[row][column];
+                if (dato == null && (!position.equals("0_0")) && (!position.equals("7_5"))) {
+                    String but = row + "_" + column;
+                    JButton button = getButton(but);
+                    game[row][column] = "x";
+                    pass = false;
+                    button.setBackground(Color.red);
+                    button.setText("x");
+                    count++;
+                }
+            } while (pass);
+        }
+        comodin();
+    }
+    
+    private void comodin(){
+        boolean fin = true;
+        do{
+            int row = (int) (Math.random() * 7 + 0);
+            int column = (int) (Math.random() * 4 + 0);
+            String position = row + "_" + column;
+            Object dato = game[row][column];
+            if (dato == null && (!position.equals("0_0")) && (!position.equals("7_5"))) {
+                    String but = row + "_" + column;
+                    JButton button = getButton(but);
+                    button.setText("c");
+                    game[row][column] = "c";
+                    fin = false;
+                }
+        }while(fin);
+    }
+    
     private JButton getButton(String position) {
         switch (position) {
             case "0_0":
