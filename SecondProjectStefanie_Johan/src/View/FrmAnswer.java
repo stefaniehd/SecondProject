@@ -5,6 +5,8 @@
  */
 package View;
 
+import javax.swing.JButton;
+
 
 /**
  *
@@ -19,6 +21,91 @@ public class FrmAnswer extends javax.swing.JFrame {
         initComponents();
     }
 
+    private JButton getButton(String position) {
+        switch (position) {
+            case "0_0":
+                return this.btn0_0;
+            case "0_1":
+                return this.btn0_1;
+            case "0_2":
+                return this.btn0_2;
+            case "0_3":
+                return this.btn0_3;
+            case "0_4":
+                return this.btn0_4;
+            case "1_0":
+                return this.btn1_0;
+            case "1_1":
+                return this.btn1_1;
+            case "1_2":
+                return this.btn1_2;
+            case "1_3":
+                return this.btn1_3;
+            case "1_4":
+                return this.btn1_4;
+            case "2_0":
+                return this.btn2_0;
+            case "2_1":
+                return this.btn2_1;
+            case "2_2":
+                return this.btn2_2;
+            case "2_3":
+                return this.btn2_3;
+            case "2_4":
+                return this.btn2_4;
+            case "3_0":
+                return this.btn3_0;
+            case "3_1":
+                return this.btn3_1;
+            case "3_2":
+                return this.btn3_2;
+            case "3_3":
+                return this.btn3_3;
+            case "3_4":
+                return this.btn3_4;
+            case "4_0":
+                return this.btn4_0;
+            case "4_1":
+                return this.btn4_1;
+            case "4_2":
+                return this.btn4_2;
+            case "4_3":
+                return this.btn4_3;
+            case "4_4":
+                return this.btn4_4;
+            case "5_0":
+                return this.btn5_0;
+            case "5_1":
+                return this.btn5_1;
+            case "5_2":
+                return this.btn5_2;
+            case "5_3":
+                return this.btn5_3;
+            case "5_4":
+                return this.btn5_4;
+            case "6_0":
+                return this.btn6_0;
+            case "6_1":
+                return this.btn6_1;
+            case "6_2":
+                return this.btn6_2;
+            case "6_3":
+                return this.btn6_3;
+            case "6_4":
+                return this.btn6_4;
+            case "7_0":
+                return this.btn7_0;
+            case "7_1":
+                return this.btn7_1;
+            case "7_2":
+                return this.btn7_2;
+            case "7_3":
+                return this.btn7_3;
+            case "7_4":
+                return this.btn7_4;
+        }
+        return null;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
