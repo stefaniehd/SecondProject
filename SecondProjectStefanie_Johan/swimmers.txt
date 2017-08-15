@@ -1,6 +1,6 @@
-324538;Vladimir;Matarrita;11;13
-686969;Stefanie;Hurtado;9;5
-533733;Esteban;Quesada;10;8
-786472;Alonso;Herrera;1;3
-397646;Juan;Mora;2;3
+324538;Vladimir;Matarrita;39;49
+686969;Stefanie;Hurtado;33;33
+533733;Esteban;Quesada;32;34
+786472;Alonso;Herrera;26;38
+397646;Juan;Mora;23;26
 489319;Victor;Moreira;0;0

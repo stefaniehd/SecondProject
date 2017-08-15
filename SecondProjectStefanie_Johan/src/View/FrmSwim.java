@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controllers.Statistics;
 import Controllers.Swimmer;
 import java.util.LinkedList;
 import java.util.Timer;
@@ -29,6 +30,7 @@ public class FrmSwim extends javax.swing.JFrame {
     private LinkedList<Models.Swimmer> lSend;
     private LinkedList<Models.Swimmer> lSwimming;
     private int posicion;
+    private Models.Statistics statisticas;
 
     /**
      * Creates new form FrmSwim
@@ -45,6 +47,7 @@ public class FrmSwim extends javax.swing.JFrame {
         lSwimming = new LinkedList<>();
         System.out.println(pPool.getWidth() + pPool.getX());
         lChoose.setModel(model);
+        statisticas = new Models.Statistics();
         pPool.setSize(740, 250);
         open = false;
         posicion = 1;
@@ -117,8 +120,9 @@ public class FrmSwim extends javax.swing.JFrame {
 
     private void go() {
         velocityRandom();
+        statisticas.setRaces(statisticas.getRaces()+1);
         cronom();
-        posicion = 1;
+        posicion = 0;
         timer = new Timer();
         taskRun = new TimerTask() {
             @Override
@@ -220,24 +224,36 @@ public class FrmSwim extends javax.swing.JFrame {
                 if (s.size() > 0) {
                     winner(s);
                 }
+                if (s.size()>1) {
+                    statisticas.setEmpates(statisticas.getEmpates()+1);
+                }
+                posicion+=s.size();
             }
         };
         timer.schedule(taskRun, 100, 100);
+    }
+    
+    private void report(){
+        Controllers.Statistics s = new Statistics(statisticas);
+        JOptionPane.showMessageDialog(null, s.report());
     }
 
     private void winner(LinkedList<Models.Swimmer> s) {
         for (int i = s.size(); i >= 0; i--) {
             int random = (int) (Math.random() * (s.size() - 1) * 0);
-            JButton b = btn(random + 1);
+            JButton b = null;
             if (i == 0) {
                 s.get(random).setGanadas(s.get(random).getGanadas() + 1);
             } else {
                 s.get(random).setPerdidas(s.get(random).getPerdidas() + 1);
             }
-            b.setText(String.valueOf(posicion));
+            for (int j = 0; j < lSwimming.size(); j++) {
+                if (lSwimming.get(j).getCode().equals(s.get(random).getCode())) {
+                    b = btn(j + 1);
+                    b.setText(String.valueOf(posicion+1));
+                }
+            }
             update(s.get(random));
-            b.setText(String.valueOf(posicion));
-            posicion++;
         }
     }
 
@@ -379,7 +395,7 @@ public class FrmSwim extends javax.swing.JFrame {
 
     private void velocityRandom() {
         for (int i = lSwimming.size() - 1; i >= 0; i--) {
-            int random = (int) (Math.random() * 50 + 20);
+            int random = (int) (Math.random() * 5 + 1);
             lSwimming.get(i).setVelocity(random);
         }
     }
@@ -707,6 +723,7 @@ public class FrmSwim extends javax.swing.JFrame {
         btnInfo.setBackground(new java.awt.Color(255, 102, 102));
         btnInfo.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btnInfo.setText("Statistics");
+        btnInfo.setToolTipText("Doble click para limpiar estadisticas");
         getContentPane().add(btnInfo);
         btnInfo.setBounds(700, 30, 99, 29);
 

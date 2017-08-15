@@ -15,6 +15,16 @@ public class Statistics {
     public Statistics() {
         statistics = new Models.Statistics();
     }
+
+    public Statistics(Models.Statistics statistics) {
+        this.statistics = statistics;
+    }
     
+    public String report(){
+        return this.statistics.generateReport();
+    }
     
+    public void clean(){
+        this.statistics.clean();
+    }
 }

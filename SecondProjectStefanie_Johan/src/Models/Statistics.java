@@ -64,22 +64,32 @@ public class Statistics {
     public void setSwimmer(LinkedList<Swimmer> swimmer) {
         this.swimmer = swimmer;
     }
-    
-    private void select(){
-        
-    }
 
+    public void clean(){
+        fileManager.write("statistics.txt", 0+";"+0);
+    }
+    
     public String generateReport() {
+        int empates = 0;
+        int races = 0;
+        try {
+            String[] text = fileManager.read("statistics.txt").split(";");
+            empates = Integer.parseInt(text[0]);
+            races = Integer.parseInt(text[1]);
+        } catch (Exception e) {
+        }
         String result = "";
+        empates += this.getEmpates();
+        races += this.getRaces();
         for (int i = 0; i < swimmer.size(); i++) {
             result += swimmer.get(i).getName() + " " + swimmer.get(i).getLastName() + " ha ganado "
                     + swimmer.get(i).getGanadas() + " veces";
         }
         result += "Carreras efectuadas: " + this.getRaces();
         result += ganador() + " ha ganado más veces.";
-        result += perdedor()+ " ha perdido más veces.";
+        result += perdedor() + " ha perdido más veces.";
         result += "Empates registrados: " + this.getEmpates();
-        fileManager.write("statistics.txt", this.getRaces()+";"+this.getEmpates());
+        fileManager.write("statistics.txt", this.getRaces() + ";" + this.getEmpates());
         return result;
     }
 
@@ -96,13 +106,13 @@ public class Statistics {
         }
         return nombre;
     }
-    
+
     private String perdedor() {
         String nombre = "";
         try {
             nombre = swimmer.get(0).getName() + " " + swimmer.get(0).getLastName();
             for (int i = 1; i < swimmer.size(); i++) {
-                if (swimmer.get(0).getPerdidas()< swimmer.get(i).getPerdidas()) {
+                if (swimmer.get(0).getPerdidas() < swimmer.get(i).getPerdidas()) {
                     nombre = swimmer.get(i).getName() + " " + swimmer.get(i).getLastName();
                 }
             }
