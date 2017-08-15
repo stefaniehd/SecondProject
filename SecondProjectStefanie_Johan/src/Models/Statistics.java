@@ -83,12 +83,12 @@ public class Statistics {
         races += this.getRaces();
         for (int i = 0; i < swimmer.size(); i++) {
             result += swimmer.get(i).getName() + " " + swimmer.get(i).getLastName() + " ha ganado "
-                    + swimmer.get(i).getGanadas() + " veces";
+                    + swimmer.get(i).getGanadas() + " veces\n";
         }
         result += "Carreras efectuadas: " + this.getRaces();
-        result += ganador() + " ha ganado más veces.";
-        result += perdedor() + " ha perdido más veces.";
-        result += "Empates registrados: " + this.getEmpates();
+        result += "\n"+ganador() + " ha ganado más veces.\n";
+        result += perdedor() + " ha perdido más veces.\n";
+        result += "Empates registrados: " + this.getEmpates()+"\n";
         fileManager.write("statistics.txt", this.getRaces() + ";" + this.getEmpates());
         return result;
     }

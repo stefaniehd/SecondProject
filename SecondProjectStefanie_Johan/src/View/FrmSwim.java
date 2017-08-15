@@ -233,9 +233,16 @@ public class FrmSwim extends javax.swing.JFrame {
         timer.schedule(taskRun, 100, 100);
     }
     
-    private void report(){
+    private void cleanStatistics(){
         Controllers.Statistics s = new Statistics(statisticas);
-        JOptionPane.showMessageDialog(null, s.report());
+        s.clean();
+        statisticas = new Models.Statistics();
+    }
+    
+    private void report(){
+        statisticas.setSwimmer(lSwimmer);
+        Controllers.Statistics s = new Statistics(statisticas);
+        JOptionPane.showMessageDialog(this, s.report());
     }
 
     private void winner(LinkedList<Models.Swimmer> s) {
@@ -446,6 +453,7 @@ public class FrmSwim extends javax.swing.JFrame {
         btnInfo = new javax.swing.JButton();
         btnClean = new javax.swing.JButton();
         lblFinal = new javax.swing.JLabel();
+        btnCleanSta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -722,10 +730,15 @@ public class FrmSwim extends javax.swing.JFrame {
 
         btnInfo.setBackground(new java.awt.Color(255, 102, 102));
         btnInfo.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        btnInfo.setText("Statistics");
-        btnInfo.setToolTipText("Doble click para limpiar estadisticas");
+        btnInfo.setText("Show Statistics");
+        btnInfo.setToolTipText("");
+        btnInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInfoActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnInfo);
-        btnInfo.setBounds(700, 30, 99, 29);
+        btnInfo.setBounds(640, 10, 160, 29);
 
         btnClean.setBackground(new java.awt.Color(255, 102, 102));
         btnClean.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
@@ -741,6 +754,18 @@ public class FrmSwim extends javax.swing.JFrame {
         lblFinal.setBackground(new java.awt.Color(153, 0, 0));
         getContentPane().add(lblFinal);
         lblFinal.setBounds(800, 100, 10, 220);
+
+        btnCleanSta.setBackground(new java.awt.Color(255, 102, 102));
+        btnCleanSta.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        btnCleanSta.setText("Clean Statistics");
+        btnCleanSta.setToolTipText("");
+        btnCleanSta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCleanStaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCleanSta);
+        btnCleanSta.setBounds(640, 40, 160, 29);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -797,6 +822,14 @@ public class FrmSwim extends javax.swing.JFrame {
         clean();
     }//GEN-LAST:event_btnCleanActionPerformed
 
+    private void btnInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoActionPerformed
+        report();
+    }//GEN-LAST:event_btnInfoActionPerformed
+
+    private void btnCleanStaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanStaActionPerformed
+        cleanStatistics();
+    }//GEN-LAST:event_btnCleanStaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -845,6 +878,7 @@ public class FrmSwim extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAdd1;
     private javax.swing.JButton btnClean;
+    private javax.swing.JButton btnCleanSta;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnInfo;
     private javax.swing.JButton btnJug1;
