@@ -15,8 +15,8 @@ import java.util.LinkedList;
 public class Question {
     private String code;
     private String question;
-    private String answerOne;
-    private String answerTwo;
+    private String trueAnswer;
+    private String falseAnswer;
     private FileManager fileManager;
 
     public Question() {
@@ -40,24 +40,24 @@ public class Question {
     }
 
     public String getAnswerOne() {
-        return answerOne;
+        return trueAnswer;
     }
 
     public void setAnswerOne(String answerOne) {
-        this.answerOne = answerOne;
+        this.trueAnswer = answerOne;
     }
 
     public String getAnswerTwo() {
-        return answerTwo;
+        return falseAnswer;
     }
 
     public void setAnswerTwo(String answerTwo) {
-        this.answerTwo = answerTwo;
+        this.falseAnswer = answerTwo;
     }
     
     public LinkedList<Models.Question> select(){
         LinkedList<Models.Question> q = new LinkedList<>();
-        String [] text = fileManager.read("question.txt").split("\n");
+        String [] text = fileManager.read("questions.txt").split("\n");
         for (int i = 0; i < text.length; i++) {
             String [] data = text[i].split(";");
             Models.Question que = new Question();

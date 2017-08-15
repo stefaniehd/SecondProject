@@ -1,0 +1,14 @@
+Cual es el significado de OOP?;Programacion Orientada a Objetos;Principio de Objetos Orientados
+Que significa IDE?; Entorno de Desarrollo Integrado; Educacion de Desarrollo Informatico
+NetBeans es un IDE de cual lenguaje?;Java; C#
+Quien creo Facebook?;Mark Zuckerberg;Bill Gates
+Bill Gates invento ____________?;Microsoft; Apple
+Steve Jobs invento ____________?;Apple; Facebook
+Charles Babbage es conocido como ____________?;El padre de la informatica; El hombre más inteligente del mundo
+Que hizo Evan Spiegel?;Snapchat; Instagram
+Instagram fue creado por...;2 personas;1 persona
+Obstaculos para programar?;Ninguno;No hay
+Se prodria decir que un frame es __________?;Una ventana; Una Clase
+Single responsibility es ___________?;Un principio de programacion;Un termino informatico
+El principio Open-closed dice que una entidad debe estar abierta para extension pero no para modificion;Cierto;Falso
+la relación entre una clase general y otra clase más específica es denominada como ___________?;Herencia;Poliformismo
