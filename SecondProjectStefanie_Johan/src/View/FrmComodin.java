@@ -26,6 +26,7 @@ public class FrmComodin extends javax.swing.JDialog {
     public FrmComodin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
         random();
         time();
     }

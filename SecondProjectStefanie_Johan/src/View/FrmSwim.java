@@ -248,6 +248,12 @@ public class FrmSwim extends javax.swing.JFrame {
         statisticas.setSwimmer(lSwimmer);
         statis = new Statistics(statisticas);
         statis.clean();
+        loadSwimmers();
+        for (int i = 0; i < lSwimmer.size(); i++) {
+            lSwimmer.get(i).setGanadas(0);
+            lSwimmer.get(i).setPerdidas(0);
+            lSwimmer.get(i).update();
+        }
     }
 
     private void sta() {
@@ -258,7 +264,7 @@ public class FrmSwim extends javax.swing.JFrame {
 
     private void report() {
         sta();
-        JOptionPane.showMessageDialog(this, statis.report());
+        JOptionPane.showMessageDialog(null, statis.report(), "Reporte", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void winner(LinkedList<Models.Swimmer> s) {
