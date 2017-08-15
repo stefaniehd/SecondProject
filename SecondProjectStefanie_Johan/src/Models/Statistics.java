@@ -73,8 +73,8 @@ public class Statistics {
         Models.Statistics s = new Statistics();
         String[] text = fileManager.read("Statistics.txt").split(";");
         try {
-            s.setEmpates(Integer.parseInt(text[0]));
-            s.setRaces(Integer.parseInt(text[1]));
+            s.setRaces(Integer.parseInt(text[0].replace('\n', ' ').trim()));
+            s.setEmpates(Integer.parseInt(text[1].replace('\n', ' ').trim()));
         } catch (Exception e) {
         }
         return s;
@@ -82,6 +82,7 @@ public class Statistics {
 
     public String generateReport() {
         String result = "";
+        Models.Statistics s = load();
         for (int i = 0; i < swimmer.size(); i++) {
             result += swimmer.get(i).getName() + " " + swimmer.get(i).getLastName() + " ha ganado "
                     + swimmer.get(i).getGanadas();
@@ -91,10 +92,10 @@ public class Statistics {
                 result += " veces\n";
             }
         }
-        result += "Carreras efectuadas: " + this.getRaces();
+        result += "Carreras efectuadas: " + s.getRaces();
         result += "\n" + ganador() + " ha ganado más veces.\n";
         result += perdedor() + " ha perdido más veces.\n";
-        result += "Empates registrados: " + this.getEmpates() + "\n";
+        result += "Empates registrados: " + s.getEmpates() + "\n";
         return result;
     }
 

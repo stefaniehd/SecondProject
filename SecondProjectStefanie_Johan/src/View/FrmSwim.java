@@ -23,6 +23,7 @@ public class FrmSwim extends javax.swing.JFrame {
     private Timer timer;
     private LinkedList<Models.Swimmer> lSwimmer;
     private Timer cronom;
+    private int empates;
     private TimerTask taskCronom;
     private TimerTask taskRun;
     private DefaultListModel model;
@@ -123,9 +124,10 @@ public class FrmSwim extends javax.swing.JFrame {
 
     private void go() {
         velocityRandom();
-        cronom();
         posicion = 1;
         timer = new Timer();
+        empates = 0;
+        cronom();
         taskRun = new TimerTask() {
             @Override
             public void run() {
@@ -226,9 +228,9 @@ public class FrmSwim extends javax.swing.JFrame {
                     timer.cancel();
                     taskRun.cancel();
                     statisticas.setRaces(statisticas.getRaces() + 1);
+                    statisticas.setEmpates(statisticas.getEmpates() + empates);
                     updateStatistics();
                 }
-                posicion += s.size();
             }
         };
         timer.schedule(taskRun, 100, 100);
@@ -260,16 +262,15 @@ public class FrmSwim extends javax.swing.JFrame {
     }
 
     private void winner(LinkedList<Models.Swimmer> s) {
+        int aux = posicion;
         if (s.size() > 1) {
-            statisticas.setEmpates(statisticas.getEmpates() + 1);
+            empates++;
         }
-        int aux = 0;
         for (int i = s.size(); i >= 0; i--) {
-            aux = posicion;
             try {
                 int random = (int) (Math.random() * (s.size() - 1) * 0);
                 JButton b = null;
-                if (posicion == 1) {
+                if (aux == 1) {
                     s.get(random).setGanadas(s.get(random).getGanadas() + 1);
                 } else {
                     s.get(random).setPerdidas(s.get(random).getPerdidas() + 1);
@@ -278,7 +279,7 @@ public class FrmSwim extends javax.swing.JFrame {
                     if (lSwimming.get(j).getCode().equals(s.get(random).getCode())) {
                         b = btn(j);
                         b.setText(String.valueOf(aux));
-                        aux += j;
+                        aux++;
                     }
                 }
                 update(s.get(random));
@@ -286,6 +287,7 @@ public class FrmSwim extends javax.swing.JFrame {
             } catch (Exception e) {
             }
         }
+        posicion = aux;
     }
 
     private JButton btn(int num) {
