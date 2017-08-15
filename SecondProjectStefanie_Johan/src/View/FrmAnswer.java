@@ -35,9 +35,9 @@ public class FrmAnswer extends javax.swing.JFrame {
         game = new JButton[8][5];
         question = new LinkedList<>();
         loadButton();
-        go=true;
-        delete=false;
-        rowActual = 0;
+        go = true;
+        delete = false;
+        rowActual = -1;
         columnactual = 0;
         troubles();
         loadQuestions();
@@ -45,44 +45,73 @@ public class FrmAnswer extends javax.swing.JFrame {
     }
 
     private void play(int row, int column) {
-        if (game[row][column].getText().equals("x") && delete) {
-            game[row][column].setText("");
+        if (delete && (game[row][column].getText().equals("c"))) {
+            FrmComodin oComodin = new FrmComodin(this, true);
+            oComodin.setVisible(true);
+            if (oComodin.isRespesta()) {
+                JOptionPane.showMessageDialog(null, "Felicidades!!! ha ganado la partida");
+                go = false;
+            }
+            delete = false;
             game[row][column].setBackground(Color.black);
-            delete=false;
+            game[row][column].setText("");
             delete();
-        } else if (go){
-            if (((row == (rowActual + 1)) && (column == (columnactual)))
-                    || ((row == (rowActual)) && (column == (columnactual + 1)))) {
-                int answer = 0;
-                game[rowActual][columnactual].setBackground(Color.black);
-                rowActual=row;
-                columnactual=column;
-                game[row][column].setBackground(Color.yellow);
-                do {
-                    answer = ask();
-                    if (answer == 0) {
-                        puntosGanados++;
-                        JOptionPane.showMessageDialog(null, "Puede eliminar un obstaculo"
-                                + "o elegir\nel comdín y avanzar una posición");
-                        delete = true;
-                        delete();
-                        go=true;
-                    } else {
-                        puntosPerdidos++;
-                        go=false;
-                        delete = false;
-                        delete();
-                        newTrouble();
+        } else {
+            if (game[row][column].getText().equals("x") && delete) {
+                game[row][column].setText("");
+                game[row][column].setBackground(Color.black);
+                delete = false;
+                delete();
+            } else if (go) {
+                if (((row == (rowActual + 1)) && (column == (columnactual)))
+                        || ((row == (rowActual)) && (column == (columnactual + 1)))) {
+                    if (row == 7 && column == 4 && (puntosGanados-2)>puntosPerdidos) {
+                        JOptionPane.showMessageDialog(null, "Felicidades!!! ha ganado la partida");
+                        go = false;
+                        return;
                     }
-                } while (answer != 0);
+                    int answer = 0;
+                    try {
+                        if (rowActual == -1) {
+                            rowActual = 0;
+                        }
+                        game[rowActual][columnactual].setBackground(Color.black);
+                        rowActual = row;
+                        columnactual = column;
+                        game[row][column].setBackground(Color.yellow);
+                        game[row][column].setText("<>");
+                    } catch (Exception e) {
+                    }
+                        String message = "";
+                    do {
+                        answer = ask(message);
+                        if (answer == 0) {
+                            puntosGanados++;
+                            JOptionPane.showMessageDialog(null, "Puede eliminar un obstaculo"
+                                    + "o elegir\nel comdín y avanzar una posición");
+                            delete = true;
+                            delete();
+                            go = true;
+                        } else {
+                            puntosPerdidos++;
+                            go = false;
+                            delete = false;
+                            message = "Respuesta anterior incorrecta, prueba con esta!\n\n";
+                            delete();
+                            newTrouble();
+                        }
+                    } while (answer != 0);
+                }
             }
         }
+        jPerdidos.setText("Puntos perdidos: "+ puntosPerdidos);
+        jGanados.setText("Puntos ganados: " + puntosGanados);
     }
 
     private void delete() {
         for (int i = 0; i < game.length; i++) {
             for (int j = 0; j < game[i].length; j++) {
-                if (game[i][j].getText().equals("x")) {
+                if (game[i][j].getText().equals("x") || game[i][j].getText().equals("c")) {
                     game[i][j].setEnabled(delete);
                 } else {
                     game[i][j].setEnabled(!delete);
@@ -106,9 +135,10 @@ public class FrmAnswer extends javax.swing.JFrame {
         delete();
     }
 
-    private int ask() {
+    private int ask(String messageSent) {
         int rdm = (int) (Math.random() * (question.size() - 1) + 0);
-        String message = question.get(rdm).getQuestion();
+        String message = messageSent;
+        message += question.get(rdm).getQuestion();
         String uno = question.get(rdm).getAnswerOne();
         String dos = question.get(rdm).getAnswerTwo();
         Object[] botones = {uno, dos};
@@ -305,6 +335,8 @@ public class FrmAnswer extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        jPerdidos = new javax.swing.JMenu();
+        jGanados = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -687,6 +719,12 @@ public class FrmAnswer extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu2);
 
+        jPerdidos.setText("Perdidos");
+        jMenuBar1.add(jPerdidos);
+
+        jGanados.setText("Ganados");
+        jMenuBar1.add(jGanados);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -831,15 +869,15 @@ public class FrmAnswer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn1_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1_2ActionPerformed
-        play(1,2);
+        play(1, 2);
     }//GEN-LAST:event_btn1_2ActionPerformed
 
     private void btn1_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1_3ActionPerformed
-        play(1,3);
+        play(1, 3);
     }//GEN-LAST:event_btn1_3ActionPerformed
 
     private void btn1_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1_4ActionPerformed
-       play(1,4);
+        play(1, 4);
     }//GEN-LAST:event_btn1_4ActionPerformed
 
     private void btn0_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0_2ActionPerformed
@@ -855,75 +893,75 @@ public class FrmAnswer extends javax.swing.JFrame {
     }//GEN-LAST:event_btn0_4ActionPerformed
 
     private void btn2_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2_2ActionPerformed
-        play(2,2);
+        play(2, 2);
     }//GEN-LAST:event_btn2_2ActionPerformed
 
     private void btn2_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2_3ActionPerformed
-        play(2,3);
+        play(2, 3);
     }//GEN-LAST:event_btn2_3ActionPerformed
 
     private void btn2_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2_4ActionPerformed
-        play(2,4);
+        play(2, 4);
     }//GEN-LAST:event_btn2_4ActionPerformed
 
     private void btn3_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3_2ActionPerformed
-        play(3,2);
+        play(3, 2);
     }//GEN-LAST:event_btn3_2ActionPerformed
 
     private void btn3_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3_3ActionPerformed
-        play(3,3);
+        play(3, 3);
     }//GEN-LAST:event_btn3_3ActionPerformed
 
     private void btn3_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3_4ActionPerformed
-        play(3,4);
+        play(3, 4);
     }//GEN-LAST:event_btn3_4ActionPerformed
 
     private void btn4_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4_2ActionPerformed
-       play(4,2);
+        play(4, 2);
     }//GEN-LAST:event_btn4_2ActionPerformed
 
     private void btn4_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4_3ActionPerformed
-        play(4,3);
+        play(4, 3);
     }//GEN-LAST:event_btn4_3ActionPerformed
 
     private void btn4_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4_4ActionPerformed
-        play(4,4);
+        play(4, 4);
     }//GEN-LAST:event_btn4_4ActionPerformed
 
     private void btn5_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5_2ActionPerformed
-        play(5,2);
+        play(5, 2);
     }//GEN-LAST:event_btn5_2ActionPerformed
 
     private void btn5_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5_3ActionPerformed
-        play(5,3);
+        play(5, 3);
     }//GEN-LAST:event_btn5_3ActionPerformed
 
     private void btn5_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5_4ActionPerformed
-        play(5,4);
+        play(5, 4);
     }//GEN-LAST:event_btn5_4ActionPerformed
 
     private void btn6_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6_2ActionPerformed
-        play(6,2);
+        play(6, 2);
     }//GEN-LAST:event_btn6_2ActionPerformed
 
     private void btn6_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6_3ActionPerformed
-       play(6,3);
+        play(6, 3);
     }//GEN-LAST:event_btn6_3ActionPerformed
 
     private void btn6_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6_4ActionPerformed
-        play(6,4);
+        play(6, 4);
     }//GEN-LAST:event_btn6_4ActionPerformed
 
     private void btn7_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7_2ActionPerformed
-        play(7,2);
+        play(7, 2);
     }//GEN-LAST:event_btn7_2ActionPerformed
 
     private void btn7_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7_3ActionPerformed
-        play(7,3);
+        play(7, 3);
     }//GEN-LAST:event_btn7_3ActionPerformed
 
     private void btn7_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7_4ActionPerformed
-        play(7,4);
+        play(7, 4);
     }//GEN-LAST:event_btn7_4ActionPerformed
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
@@ -937,7 +975,7 @@ public class FrmAnswer extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void btn0_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0_0ActionPerformed
-        
+        play(0, 0);
     }//GEN-LAST:event_btn0_0ActionPerformed
 
     private void btn0_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0_1ActionPerformed
@@ -945,59 +983,59 @@ public class FrmAnswer extends javax.swing.JFrame {
     }//GEN-LAST:event_btn0_1ActionPerformed
 
     private void btn1_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1_0ActionPerformed
-        play(1,0);
+        play(1, 0);
     }//GEN-LAST:event_btn1_0ActionPerformed
 
     private void btn1_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1_1ActionPerformed
-         play(1,1);
+        play(1, 1);
     }//GEN-LAST:event_btn1_1ActionPerformed
 
     private void btn2_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2_0ActionPerformed
-         play(2,0);
+        play(2, 0);
     }//GEN-LAST:event_btn2_0ActionPerformed
 
     private void btn2_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2_1ActionPerformed
-         play(2,1);
+        play(2, 1);
     }//GEN-LAST:event_btn2_1ActionPerformed
 
     private void btn3_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3_0ActionPerformed
-         play(3,0);
+        play(3, 0);
     }//GEN-LAST:event_btn3_0ActionPerformed
 
     private void btn3_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3_1ActionPerformed
-         play(3,1);
+        play(3, 1);
     }//GEN-LAST:event_btn3_1ActionPerformed
 
     private void btn4_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4_0ActionPerformed
-         play(4,0);
+        play(4, 0);
     }//GEN-LAST:event_btn4_0ActionPerformed
 
     private void btn4_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4_1ActionPerformed
-         play(4,1);
+        play(4, 1);
     }//GEN-LAST:event_btn4_1ActionPerformed
 
     private void btn5_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5_0ActionPerformed
-         play(5,0);
+        play(5, 0);
     }//GEN-LAST:event_btn5_0ActionPerformed
 
     private void btn5_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5_1ActionPerformed
-         play(5,1);
+        play(5, 1);
     }//GEN-LAST:event_btn5_1ActionPerformed
 
     private void btn6_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6_0ActionPerformed
-         play(6,0);
+        play(6, 0);
     }//GEN-LAST:event_btn6_0ActionPerformed
 
     private void btn6_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6_1ActionPerformed
-         play(6,1);
+        play(6, 1);
     }//GEN-LAST:event_btn6_1ActionPerformed
 
     private void btn7_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7_0ActionPerformed
-         play(7,0);
+        play(7, 0);
     }//GEN-LAST:event_btn7_0ActionPerformed
 
     private void btn7_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7_1ActionPerformed
-         play(7,1);
+        play(7, 1);
     }//GEN-LAST:event_btn7_1ActionPerformed
 
     /**
@@ -1077,8 +1115,10 @@ public class FrmAnswer extends javax.swing.JFrame {
     private javax.swing.JButton btn7_2;
     private javax.swing.JButton btn7_3;
     private javax.swing.JButton btn7_4;
+    private javax.swing.JMenu jGanados;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jPerdidos;
     // End of variables declaration//GEN-END:variables
 }

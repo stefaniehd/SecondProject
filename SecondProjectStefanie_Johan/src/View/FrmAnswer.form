@@ -20,6 +20,16 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu2MouseClicked"/>
           </Events>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="jPerdidos">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Perdidos"/>
+          </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jGanados">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ganados"/>
+          </Properties>
+        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>

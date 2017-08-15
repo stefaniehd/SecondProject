@@ -13,27 +13,38 @@ import javax.swing.JOptionPane;
  *
  * @author Magdalena
  */
-public class FrmBox extends javax.swing.JFrame {
+public class FrmComodin extends javax.swing.JDialog {
 
     private Timer cronom;
     private TimerTask taskCronom;
     private String random;
     private boolean respesta;
-
+    
     /**
-     * Creates new form FrmBox
+     * Creates new form FrmComodin
      */
-    public FrmBox() {
+    public FrmComodin(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
         random();
         time();
     }
+    
+    
+    public boolean isRespesta() {
+        return respesta;
+    }
+
+    public void setRespesta(boolean respesta) {
+        this.respesta = respesta;
+    }
 
     private void random() {
+        random="";
         for (int i = 0; i < 3; i++) {
             random += String.valueOf((int) (Math.random() * 9 + 0));
         }
+        System.out.println(random);
     }
 
     private void time() {
@@ -42,7 +53,6 @@ public class FrmBox extends javax.swing.JFrame {
             int mili = 0;
             int seg = 0;
             int min = 0;
-            int hour = 0;
 
             @Override
             public void run() {
@@ -51,21 +61,25 @@ public class FrmBox extends javax.swing.JFrame {
                     seg++;
                     mili = 0;
                 }
-                if (seg == 59) {
+                if (seg == 59 && mili == 999) {
                     min++;
-                    seg = 0;
-                }
-                if (min == 59 && seg == 59 && mili == 999) {
-                    hour++;
-                    min = 0;
                     seg = 0;
                     mili = 0;
                 }
-                String time = hour + ":" + min + ":" + seg + ":" + mili;
+                String time = min + ":" + seg;
                 lblTime.setText("Time: " + time);
+                if (time.equals("1:00")) {
+                    fin();
+                }
             }
         };
         cronom.schedule(taskCronom, 0, 1);
+    }
+
+    private void fin() {
+        JOptionPane.showMessageDialog(null, "Se ha acabado el tiempo!");
+        respesta = false;
+        this.dispose();
     }
 
     private void tryAnswer() {
@@ -73,11 +87,12 @@ public class FrmBox extends javax.swing.JFrame {
         aux += sDos.getValue().toString();
         aux += sTres.getValue().toString();
         if (aux.equals(random)) {
-            JOptionPane.showMessageDialog(null, "Felicidades, has acertado!");
-            respesta=true;
-        }else{
-            JOptionPane.showMessageDialog(null, "Mala suerte");
-            respesta=false;
+            respesta = true;
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Mala suerte, será la próxima");
+            respesta = false;
+            this.dispose();
         }
     }
 
@@ -175,20 +190,27 @@ public class FrmBox extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmBox.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmComodin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmBox.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmComodin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmBox.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmComodin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmBox.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmComodin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmBox().setVisible(true);
+                FrmComodin dialog = new FrmComodin(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }

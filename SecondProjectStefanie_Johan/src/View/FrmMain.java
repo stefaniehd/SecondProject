@@ -51,7 +51,7 @@ public class FrmMain extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 0));
+        jButton1.setBackground(new java.awt.Color(255, 102, 51));
         jButton1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jButton1.setText("Let's go to swim");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -60,7 +60,7 @@ public class FrmMain extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 0));
+        jButton2.setBackground(new java.awt.Color(255, 255, 51));
         jButton2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jButton2.setText("Answer me");
         jButton2.addActionListener(new java.awt.event.ActionListener() {

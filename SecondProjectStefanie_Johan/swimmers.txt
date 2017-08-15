@@ -1,4 +1,4 @@
-324538;Vladimir;Matarrita;1;0
-686969;Stefanie;Hurtado;0;1
+324538;Vladimir;Matarrita;2;0
+686969;Stefanie;Hurtado;0;2
 533733;Esteban;Quesada;0;1
 786472;Alonso;Herrera;0;1
