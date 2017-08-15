@@ -22,6 +22,8 @@ public class FrmAnswer extends javax.swing.JFrame {
     private int rowActual;
     private int columnactual;
     private int puntosGanados;
+    private boolean delete;
+    private boolean go;
     private int puntosPerdidos;
 
     /**
@@ -33,21 +35,58 @@ public class FrmAnswer extends javax.swing.JFrame {
         game = new JButton[8][5];
         question = new LinkedList<>();
         loadButton();
+        go=true;
+        delete=false;
         rowActual = 0;
         columnactual = 0;
         troubles();
         loadQuestions();
+        delete();
     }
 
     private void play(int row, int column) {
-        if (((row == (rowActual + 1)) && (column == (columnactual)))
-                || ((row == (rowActual)) && (column == (columnactual + 1)))) {
-            int answer = ask();
-            if (answer == 0) {
-                puntosGanados++;
-            } else {
-                puntosPerdidos++;
-                newTrouble();
+        if (game[row][column].getText().equals("x") && delete) {
+            game[row][column].setText("");
+            game[row][column].setBackground(Color.black);
+            delete=false;
+            delete();
+        } else if (go){
+            if (((row == (rowActual + 1)) && (column == (columnactual)))
+                    || ((row == (rowActual)) && (column == (columnactual + 1)))) {
+                int answer = 0;
+                game[rowActual][columnactual].setBackground(Color.black);
+                rowActual=row;
+                columnactual=column;
+                game[row][column].setBackground(Color.yellow);
+                do {
+                    answer = ask();
+                    if (answer == 0) {
+                        puntosGanados++;
+                        JOptionPane.showMessageDialog(null, "Puede eliminar un obstaculo"
+                                + "o elegir\nel comdín y avanzar una posición");
+                        delete = true;
+                        delete();
+                        go=true;
+                    } else {
+                        puntosPerdidos++;
+                        go=false;
+                        delete = false;
+                        delete();
+                        newTrouble();
+                    }
+                } while (answer != 0);
+            }
+        }
+    }
+
+    private void delete() {
+        for (int i = 0; i < game.length; i++) {
+            for (int j = 0; j < game[i].length; j++) {
+                if (game[i][j].getText().equals("x")) {
+                    game[i][j].setEnabled(delete);
+                } else {
+                    game[i][j].setEnabled(!delete);
+                }
             }
         }
     }
@@ -64,6 +103,7 @@ public class FrmAnswer extends javax.swing.JFrame {
                 game[row][column].setBackground(Color.red);
             }
         } while (pass);
+        delete();
     }
 
     private int ask() {
@@ -121,6 +161,7 @@ public class FrmAnswer extends javax.swing.JFrame {
             String position = row + "_" + column;
             if (("".equals(game[row][column].getText())) && (!position.equals("0_0")) && (!position.equals("7_5"))) {
                 game[row][column].setText("c");
+                game[row][column].setBackground(Color.blue);
                 fin = false;
             }
         } while (fin);
@@ -268,30 +309,45 @@ public class FrmAnswer extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        btn1_0.setBackground(new java.awt.Color(204, 204, 204));
+        btn1_0.setBackground(new java.awt.Color(0, 0, 0));
         btn1_0.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn1_0.setForeground(new java.awt.Color(255, 255, 255));
+        btn1_0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn1_0ActionPerformed(evt);
+            }
+        });
 
-        btn1_1.setBackground(new java.awt.Color(204, 204, 204));
+        btn1_1.setBackground(new java.awt.Color(0, 0, 0));
         btn1_1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn1_1.setForeground(new java.awt.Color(255, 255, 255));
+        btn1_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn1_1ActionPerformed(evt);
+            }
+        });
 
-        btn1_2.setBackground(new java.awt.Color(204, 204, 204));
+        btn1_2.setBackground(new java.awt.Color(0, 0, 0));
         btn1_2.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn1_2.setForeground(new java.awt.Color(255, 255, 255));
         btn1_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn1_2ActionPerformed(evt);
             }
         });
 
-        btn1_3.setBackground(new java.awt.Color(204, 204, 204));
+        btn1_3.setBackground(new java.awt.Color(0, 0, 0));
         btn1_3.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn1_3.setForeground(new java.awt.Color(255, 255, 255));
         btn1_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn1_3ActionPerformed(evt);
             }
         });
 
-        btn1_4.setBackground(new java.awt.Color(204, 204, 204));
+        btn1_4.setBackground(new java.awt.Color(0, 0, 0));
         btn1_4.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn1_4.setForeground(new java.awt.Color(255, 255, 255));
         btn1_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn1_4ActionPerformed(evt);
@@ -300,6 +356,7 @@ public class FrmAnswer extends javax.swing.JFrame {
 
         btn0_0.setBackground(new java.awt.Color(0, 153, 153));
         btn0_0.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn0_0.setForeground(new java.awt.Color(255, 255, 255));
         btn0_0.setText("Inicio");
         btn0_0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,199 +364,297 @@ public class FrmAnswer extends javax.swing.JFrame {
             }
         });
 
-        btn0_1.setBackground(new java.awt.Color(204, 204, 204));
+        btn0_1.setBackground(new java.awt.Color(0, 0, 0));
         btn0_1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn0_1.setForeground(new java.awt.Color(255, 255, 255));
+        btn0_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn0_1ActionPerformed(evt);
+            }
+        });
 
-        btn0_2.setBackground(new java.awt.Color(204, 204, 204));
+        btn0_2.setBackground(new java.awt.Color(0, 0, 0));
         btn0_2.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn0_2.setForeground(new java.awt.Color(255, 255, 255));
         btn0_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn0_2ActionPerformed(evt);
             }
         });
 
-        btn0_3.setBackground(new java.awt.Color(204, 204, 204));
+        btn0_3.setBackground(new java.awt.Color(0, 0, 0));
         btn0_3.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn0_3.setForeground(new java.awt.Color(255, 255, 255));
         btn0_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn0_3ActionPerformed(evt);
             }
         });
 
-        btn0_4.setBackground(new java.awt.Color(204, 204, 204));
+        btn0_4.setBackground(new java.awt.Color(0, 0, 0));
         btn0_4.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn0_4.setForeground(new java.awt.Color(255, 255, 255));
         btn0_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn0_4ActionPerformed(evt);
             }
         });
 
-        btn2_0.setBackground(new java.awt.Color(204, 204, 204));
+        btn2_0.setBackground(new java.awt.Color(0, 0, 0));
         btn2_0.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn2_0.setForeground(new java.awt.Color(255, 255, 255));
+        btn2_0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn2_0ActionPerformed(evt);
+            }
+        });
 
-        btn2_1.setBackground(new java.awt.Color(204, 204, 204));
+        btn2_1.setBackground(new java.awt.Color(0, 0, 0));
         btn2_1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn2_1.setForeground(new java.awt.Color(255, 255, 255));
+        btn2_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn2_1ActionPerformed(evt);
+            }
+        });
 
-        btn2_2.setBackground(new java.awt.Color(204, 204, 204));
+        btn2_2.setBackground(new java.awt.Color(0, 0, 0));
         btn2_2.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn2_2.setForeground(new java.awt.Color(255, 255, 255));
         btn2_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn2_2ActionPerformed(evt);
             }
         });
 
-        btn2_3.setBackground(new java.awt.Color(204, 204, 204));
+        btn2_3.setBackground(new java.awt.Color(0, 0, 0));
         btn2_3.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn2_3.setForeground(new java.awt.Color(255, 255, 255));
         btn2_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn2_3ActionPerformed(evt);
             }
         });
 
-        btn2_4.setBackground(new java.awt.Color(204, 204, 204));
+        btn2_4.setBackground(new java.awt.Color(0, 0, 0));
         btn2_4.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn2_4.setForeground(new java.awt.Color(255, 255, 255));
         btn2_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn2_4ActionPerformed(evt);
             }
         });
 
-        btn3_0.setBackground(new java.awt.Color(204, 204, 204));
+        btn3_0.setBackground(new java.awt.Color(0, 0, 0));
         btn3_0.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn3_0.setForeground(new java.awt.Color(255, 255, 255));
+        btn3_0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn3_0ActionPerformed(evt);
+            }
+        });
 
-        btn3_1.setBackground(new java.awt.Color(204, 204, 204));
+        btn3_1.setBackground(new java.awt.Color(0, 0, 0));
         btn3_1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn3_1.setForeground(new java.awt.Color(255, 255, 255));
+        btn3_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn3_1ActionPerformed(evt);
+            }
+        });
 
-        btn3_2.setBackground(new java.awt.Color(204, 204, 204));
+        btn3_2.setBackground(new java.awt.Color(0, 0, 0));
         btn3_2.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn3_2.setForeground(new java.awt.Color(255, 255, 255));
         btn3_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn3_2ActionPerformed(evt);
             }
         });
 
-        btn3_3.setBackground(new java.awt.Color(204, 204, 204));
+        btn3_3.setBackground(new java.awt.Color(0, 0, 0));
         btn3_3.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn3_3.setForeground(new java.awt.Color(255, 255, 255));
         btn3_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn3_3ActionPerformed(evt);
             }
         });
 
-        btn3_4.setBackground(new java.awt.Color(204, 204, 204));
+        btn3_4.setBackground(new java.awt.Color(0, 0, 0));
         btn3_4.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn3_4.setForeground(new java.awt.Color(255, 255, 255));
         btn3_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn3_4ActionPerformed(evt);
             }
         });
 
-        btn4_0.setBackground(new java.awt.Color(204, 204, 204));
+        btn4_0.setBackground(new java.awt.Color(0, 0, 0));
         btn4_0.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn4_0.setForeground(new java.awt.Color(255, 255, 255));
+        btn4_0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn4_0ActionPerformed(evt);
+            }
+        });
 
-        btn4_1.setBackground(new java.awt.Color(204, 204, 204));
+        btn4_1.setBackground(new java.awt.Color(0, 0, 0));
         btn4_1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn4_1.setForeground(new java.awt.Color(255, 255, 255));
+        btn4_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn4_1ActionPerformed(evt);
+            }
+        });
 
-        btn4_2.setBackground(new java.awt.Color(204, 204, 204));
+        btn4_2.setBackground(new java.awt.Color(0, 0, 0));
         btn4_2.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn4_2.setForeground(new java.awt.Color(255, 255, 255));
         btn4_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn4_2ActionPerformed(evt);
             }
         });
 
-        btn4_3.setBackground(new java.awt.Color(204, 204, 204));
+        btn4_3.setBackground(new java.awt.Color(0, 0, 0));
         btn4_3.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn4_3.setForeground(new java.awt.Color(255, 255, 255));
         btn4_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn4_3ActionPerformed(evt);
             }
         });
 
-        btn4_4.setBackground(new java.awt.Color(204, 204, 204));
+        btn4_4.setBackground(new java.awt.Color(0, 0, 0));
         btn4_4.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn4_4.setForeground(new java.awt.Color(255, 255, 255));
         btn4_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn4_4ActionPerformed(evt);
             }
         });
 
-        btn5_0.setBackground(new java.awt.Color(204, 204, 204));
+        btn5_0.setBackground(new java.awt.Color(0, 0, 0));
         btn5_0.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn5_0.setForeground(new java.awt.Color(255, 255, 255));
+        btn5_0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn5_0ActionPerformed(evt);
+            }
+        });
 
-        btn5_1.setBackground(new java.awt.Color(204, 204, 204));
+        btn5_1.setBackground(new java.awt.Color(0, 0, 0));
         btn5_1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn5_1.setForeground(new java.awt.Color(255, 255, 255));
+        btn5_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn5_1ActionPerformed(evt);
+            }
+        });
 
-        btn5_2.setBackground(new java.awt.Color(204, 204, 204));
+        btn5_2.setBackground(new java.awt.Color(0, 0, 0));
         btn5_2.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn5_2.setForeground(new java.awt.Color(255, 255, 255));
         btn5_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn5_2ActionPerformed(evt);
             }
         });
 
-        btn5_3.setBackground(new java.awt.Color(204, 204, 204));
+        btn5_3.setBackground(new java.awt.Color(0, 0, 0));
         btn5_3.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn5_3.setForeground(new java.awt.Color(255, 255, 255));
         btn5_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn5_3ActionPerformed(evt);
             }
         });
 
-        btn5_4.setBackground(new java.awt.Color(204, 204, 204));
+        btn5_4.setBackground(new java.awt.Color(0, 0, 0));
         btn5_4.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn5_4.setForeground(new java.awt.Color(255, 255, 255));
         btn5_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn5_4ActionPerformed(evt);
             }
         });
 
-        btn6_0.setBackground(new java.awt.Color(204, 204, 204));
+        btn6_0.setBackground(new java.awt.Color(0, 0, 0));
         btn6_0.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn6_0.setForeground(new java.awt.Color(255, 255, 255));
+        btn6_0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn6_0ActionPerformed(evt);
+            }
+        });
 
-        btn6_1.setBackground(new java.awt.Color(204, 204, 204));
+        btn6_1.setBackground(new java.awt.Color(0, 0, 0));
         btn6_1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn6_1.setForeground(new java.awt.Color(255, 255, 255));
+        btn6_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn6_1ActionPerformed(evt);
+            }
+        });
 
-        btn6_2.setBackground(new java.awt.Color(204, 204, 204));
+        btn6_2.setBackground(new java.awt.Color(0, 0, 0));
         btn6_2.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn6_2.setForeground(new java.awt.Color(255, 255, 255));
         btn6_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn6_2ActionPerformed(evt);
             }
         });
 
-        btn6_3.setBackground(new java.awt.Color(204, 204, 204));
+        btn6_3.setBackground(new java.awt.Color(0, 0, 0));
         btn6_3.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn6_3.setForeground(new java.awt.Color(255, 255, 255));
         btn6_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn6_3ActionPerformed(evt);
             }
         });
 
-        btn6_4.setBackground(new java.awt.Color(204, 204, 204));
+        btn6_4.setBackground(new java.awt.Color(0, 0, 0));
         btn6_4.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn6_4.setForeground(new java.awt.Color(255, 255, 255));
         btn6_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn6_4ActionPerformed(evt);
             }
         });
 
-        btn7_0.setBackground(new java.awt.Color(204, 204, 204));
+        btn7_0.setBackground(new java.awt.Color(0, 0, 0));
         btn7_0.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn7_0.setForeground(new java.awt.Color(255, 255, 255));
+        btn7_0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn7_0ActionPerformed(evt);
+            }
+        });
 
-        btn7_1.setBackground(new java.awt.Color(204, 204, 204));
+        btn7_1.setBackground(new java.awt.Color(0, 0, 0));
         btn7_1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn7_1.setForeground(new java.awt.Color(255, 255, 255));
+        btn7_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn7_1ActionPerformed(evt);
+            }
+        });
 
-        btn7_2.setBackground(new java.awt.Color(204, 204, 204));
+        btn7_2.setBackground(new java.awt.Color(0, 0, 0));
         btn7_2.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn7_2.setForeground(new java.awt.Color(255, 255, 255));
         btn7_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn7_2ActionPerformed(evt);
             }
         });
 
-        btn7_3.setBackground(new java.awt.Color(204, 204, 204));
+        btn7_3.setBackground(new java.awt.Color(0, 0, 0));
         btn7_3.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn7_3.setForeground(new java.awt.Color(255, 255, 255));
         btn7_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn7_3ActionPerformed(evt);
@@ -508,6 +663,7 @@ public class FrmAnswer extends javax.swing.JFrame {
 
         btn7_4.setBackground(new java.awt.Color(255, 153, 51));
         btn7_4.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn7_4.setForeground(new java.awt.Color(255, 255, 255));
         btn7_4.setText("Fin");
         btn7_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -675,99 +831,99 @@ public class FrmAnswer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn1_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1_2ActionPerformed
-        // TODO add your handling code here:
+        play(1,2);
     }//GEN-LAST:event_btn1_2ActionPerformed
 
     private void btn1_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1_3ActionPerformed
-        // TODO add your handling code here:
+        play(1,3);
     }//GEN-LAST:event_btn1_3ActionPerformed
 
     private void btn1_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1_4ActionPerformed
-        // TODO add your handling code here:
+       play(1,4);
     }//GEN-LAST:event_btn1_4ActionPerformed
 
     private void btn0_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0_2ActionPerformed
-        // TODO add your handling code here:
+        play(0, 2);
     }//GEN-LAST:event_btn0_2ActionPerformed
 
     private void btn0_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0_3ActionPerformed
-        // TODO add your handling code here:
+        play(0, 3);
     }//GEN-LAST:event_btn0_3ActionPerformed
 
     private void btn0_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0_4ActionPerformed
-        // TODO add your handling code here:
+        play(0, 4);
     }//GEN-LAST:event_btn0_4ActionPerformed
 
     private void btn2_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2_2ActionPerformed
-        // TODO add your handling code here:
+        play(2,2);
     }//GEN-LAST:event_btn2_2ActionPerformed
 
     private void btn2_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2_3ActionPerformed
-        // TODO add your handling code here:
+        play(2,3);
     }//GEN-LAST:event_btn2_3ActionPerformed
 
     private void btn2_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2_4ActionPerformed
-        // TODO add your handling code here:
+        play(2,4);
     }//GEN-LAST:event_btn2_4ActionPerformed
 
     private void btn3_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3_2ActionPerformed
-        // TODO add your handling code here:
+        play(3,2);
     }//GEN-LAST:event_btn3_2ActionPerformed
 
     private void btn3_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3_3ActionPerformed
-        // TODO add your handling code here:
+        play(3,3);
     }//GEN-LAST:event_btn3_3ActionPerformed
 
     private void btn3_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3_4ActionPerformed
-        // TODO add your handling code here:
+        play(3,4);
     }//GEN-LAST:event_btn3_4ActionPerformed
 
     private void btn4_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4_2ActionPerformed
-        // TODO add your handling code here:
+       play(4,2);
     }//GEN-LAST:event_btn4_2ActionPerformed
 
     private void btn4_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4_3ActionPerformed
-        // TODO add your handling code here:
+        play(4,3);
     }//GEN-LAST:event_btn4_3ActionPerformed
 
     private void btn4_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4_4ActionPerformed
-        // TODO add your handling code here:
+        play(4,4);
     }//GEN-LAST:event_btn4_4ActionPerformed
 
     private void btn5_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5_2ActionPerformed
-        // TODO add your handling code here:
+        play(5,2);
     }//GEN-LAST:event_btn5_2ActionPerformed
 
     private void btn5_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5_3ActionPerformed
-        // TODO add your handling code here:
+        play(5,3);
     }//GEN-LAST:event_btn5_3ActionPerformed
 
     private void btn5_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5_4ActionPerformed
-        // TODO add your handling code here:
+        play(5,4);
     }//GEN-LAST:event_btn5_4ActionPerformed
 
     private void btn6_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6_2ActionPerformed
-        // TODO add your handling code here:
+        play(6,2);
     }//GEN-LAST:event_btn6_2ActionPerformed
 
     private void btn6_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6_3ActionPerformed
-        // TODO add your handling code here:
+       play(6,3);
     }//GEN-LAST:event_btn6_3ActionPerformed
 
     private void btn6_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6_4ActionPerformed
-        // TODO add your handling code here:
+        play(6,4);
     }//GEN-LAST:event_btn6_4ActionPerformed
 
     private void btn7_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7_2ActionPerformed
-        // TODO add your handling code here:
+        play(7,2);
     }//GEN-LAST:event_btn7_2ActionPerformed
 
     private void btn7_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7_3ActionPerformed
-        // TODO add your handling code here:
+        play(7,3);
     }//GEN-LAST:event_btn7_3ActionPerformed
 
     private void btn7_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7_4ActionPerformed
-        // TODO add your handling code here:
+        play(7,4);
     }//GEN-LAST:event_btn7_4ActionPerformed
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
@@ -775,12 +931,74 @@ public class FrmAnswer extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
-
+        FrmAnswer oAnswer = new FrmAnswer();
+        oAnswer.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void btn0_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0_0ActionPerformed
-
+        
     }//GEN-LAST:event_btn0_0ActionPerformed
+
+    private void btn0_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0_1ActionPerformed
+        play(0, 1);
+    }//GEN-LAST:event_btn0_1ActionPerformed
+
+    private void btn1_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1_0ActionPerformed
+        play(1,0);
+    }//GEN-LAST:event_btn1_0ActionPerformed
+
+    private void btn1_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1_1ActionPerformed
+         play(1,1);
+    }//GEN-LAST:event_btn1_1ActionPerformed
+
+    private void btn2_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2_0ActionPerformed
+         play(2,0);
+    }//GEN-LAST:event_btn2_0ActionPerformed
+
+    private void btn2_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2_1ActionPerformed
+         play(2,1);
+    }//GEN-LAST:event_btn2_1ActionPerformed
+
+    private void btn3_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3_0ActionPerformed
+         play(3,0);
+    }//GEN-LAST:event_btn3_0ActionPerformed
+
+    private void btn3_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3_1ActionPerformed
+         play(3,1);
+    }//GEN-LAST:event_btn3_1ActionPerformed
+
+    private void btn4_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4_0ActionPerformed
+         play(4,0);
+    }//GEN-LAST:event_btn4_0ActionPerformed
+
+    private void btn4_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4_1ActionPerformed
+         play(4,1);
+    }//GEN-LAST:event_btn4_1ActionPerformed
+
+    private void btn5_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5_0ActionPerformed
+         play(5,0);
+    }//GEN-LAST:event_btn5_0ActionPerformed
+
+    private void btn5_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5_1ActionPerformed
+         play(5,1);
+    }//GEN-LAST:event_btn5_1ActionPerformed
+
+    private void btn6_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6_0ActionPerformed
+         play(6,0);
+    }//GEN-LAST:event_btn6_0ActionPerformed
+
+    private void btn6_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6_1ActionPerformed
+         play(6,1);
+    }//GEN-LAST:event_btn6_1ActionPerformed
+
+    private void btn7_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7_0ActionPerformed
+         play(7,0);
+    }//GEN-LAST:event_btn7_0ActionPerformed
+
+    private void btn7_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7_1ActionPerformed
+         play(7,1);
+    }//GEN-LAST:event_btn7_1ActionPerformed
 
     /**
      * @param args the command line arguments
