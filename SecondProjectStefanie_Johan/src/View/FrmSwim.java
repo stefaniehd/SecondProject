@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
@@ -42,6 +43,7 @@ public class FrmSwim extends javax.swing.JFrame {
         lSwimmers.setModel(model);
         lSend = new LinkedList<>();
         lSwimming = new LinkedList<>();
+        System.out.println(pPool.getWidth() + pPool.getX());
         lChoose.setModel(model);
         pPool.setSize(740, 250);
         open = false;
@@ -108,8 +110,8 @@ public class FrmSwim extends javax.swing.JFrame {
         btnJug5Info.setVisible(ver);
     }
 
-    private void update(int value) {
-        Controllers.Swimmer s = new Swimmer(lSwimming.get(value - 1));
+    private void update(Models.Swimmer swimmer) {
+        Controllers.Swimmer s = new Swimmer(swimmer);
         s.update();
     }
 
@@ -121,6 +123,7 @@ public class FrmSwim extends javax.swing.JFrame {
         taskRun = new TimerTask() {
             @Override
             public void run() {
+                LinkedList<Models.Swimmer> s = new LinkedList<>();
                 String time = lblTime.getText();
                 if ((btnJug1.getX() + btnJug1.getWidth()) == (pPool.getX() + pPool.getWidth())) {
                     if (!lSwimming.get(0).isFinish()) {
@@ -128,15 +131,7 @@ public class FrmSwim extends javax.swing.JFrame {
                         lSend.add(lSwimming.get(0));
                         lSwimming.get(0).setVelocity(0);
                         lSwimming.get(0).setFinish(true);
-                        btnJug1.move(btnJug1.getX() - btnJug1.getWidth(), btnJug1.getY());
-                        btnJug1Info.setText(String.valueOf(posicion));
-                        if (posicion == 1) {
-                            lSwimming.get(0).setGanadas(lSwimming.get(0).getGanadas() + 1);
-                        } else {
-                            lSwimming.get(0).setPerdidas(lSwimming.get(0).getPerdidas() + 1);
-                        }
-                        update(posicion);
-                        posicion++;
+                        s.add(lSwimming.get(0));
                     }
                 }
                 if ((btnJug2.getX() + btnJug2.getWidth()) == (pPool.getX() + pPool.getWidth())) {
@@ -145,14 +140,7 @@ public class FrmSwim extends javax.swing.JFrame {
                         lSend.add(lSwimming.get(1));
                         lSwimming.get(1).setVelocity(0);
                         lSwimming.get(1).setFinish(true);
-                        btnJug2Info.setText(String.valueOf(posicion));
-                        if (posicion == 1) {
-                            lSwimming.get(1).setGanadas(lSwimming.get(1).getGanadas() + 1);
-                        } else {
-                            lSwimming.get(1).setPerdidas(lSwimming.get(1).getPerdidas() + 1);
-                        }
-                        update(posicion);
-                        posicion++;
+                        s.add(lSwimming.get(1));
                     }
                 }
                 if ((btnJug3.getX() + btnJug3.getWidth()) == (pPool.getX() + pPool.getWidth())) {
@@ -161,14 +149,7 @@ public class FrmSwim extends javax.swing.JFrame {
                         lSend.add(lSwimming.get(2));
                         lSwimming.get(2).setVelocity(0);
                         lSwimming.get(2).setFinish(true);
-                        btnJug3Info.setText(String.valueOf(posicion));
-                        if (posicion == 1) {
-                            lSwimming.get(2).setGanadas(lSwimming.get(2).getGanadas() + 1);
-                        } else {
-                            lSwimming.get(2).setPerdidas(lSwimming.get(2).getPerdidas() + 1);
-                        }
-                        update(posicion);
-                        posicion++;
+                        s.add(lSwimming.get(2));
                     }
                 }
                 if ((btnJug4.getX() + btnJug4.getWidth()) == (pPool.getX() + pPool.getWidth())) {
@@ -177,14 +158,7 @@ public class FrmSwim extends javax.swing.JFrame {
                         lSend.add(lSwimming.get(3));
                         lSwimming.get(3).setVelocity(0);
                         lSwimming.get(3).setFinish(true);
-                        btnJug4Info.setText(String.valueOf(posicion));
-                        if (posicion == 1) {
-                            lSwimming.get(3).setGanadas(lSwimming.get(3).getGanadas() + 1);
-                        } else {
-                            lSwimming.get(3).setPerdidas(lSwimming.get(3).getPerdidas() + 1);
-                        }
-                        update(posicion);
-                        posicion++;
+                        s.add(lSwimming.get(3));
                     }
                 }
                 if ((btnJug5.getX() + btnJug5.getWidth()) == (pPool.getX() + pPool.getWidth())) {
@@ -193,14 +167,7 @@ public class FrmSwim extends javax.swing.JFrame {
                         lSend.add(lSwimming.get(4));
                         lSwimming.get(4).setVelocity(0);
                         lSwimming.get(4).setFinish(true);
-                        btnJug5Info.setText(String.valueOf(posicion));
-                        if (posicion == 1) {
-                            lSwimming.get(4).setGanadas(lSwimming.get(4).getGanadas() + 1);
-                        } else {
-                            lSwimming.get(4).setPerdidas(lSwimming.get(4).getPerdidas() + 1);
-                        }
-                        update(posicion);
-                        posicion++;
+                        s.add(lSwimming.get(4));
                     }
                 }
                 if (btnJug1.isVisible()) {
@@ -250,9 +217,44 @@ public class FrmSwim extends javax.swing.JFrame {
                     timer.cancel();
                     taskRun.cancel();
                 }
+                if (s.size() > 0) {
+                    winner(s);
+                }
             }
         };
         timer.schedule(taskRun, 100, 100);
+    }
+
+    private void winner(LinkedList<Models.Swimmer> s) {
+        for (int i = s.size(); i >= 0; i--) {
+            int random = (int) (Math.random() * (s.size() - 1) * 0);
+            JButton b = btn(random + 1);
+            if (i == 0) {
+                s.get(random).setGanadas(s.get(random).getGanadas() + 1);
+            } else {
+                s.get(random).setPerdidas(s.get(random).getPerdidas() + 1);
+            }
+            b.setText(String.valueOf(posicion));
+            update(s.get(random));
+            b.setText(String.valueOf(posicion));
+            posicion++;
+        }
+    }
+
+    private JButton btn(int num) {
+        switch (num) {
+            case 1:
+                return this.btnJug1Info;
+            case 2:
+                return this.btnJug2Info;
+            case 3:
+                return this.btnJug3Info;
+            case 4:
+                return this.btnJug4Info;
+            case 5:
+                return this.btnJug5Info;
+        }
+        return null;
     }
 
     private void cronom() {
@@ -377,7 +379,7 @@ public class FrmSwim extends javax.swing.JFrame {
 
     private void velocityRandom() {
         for (int i = lSwimming.size() - 1; i >= 0; i--) {
-            int random = (int) (Math.random() * 50+ 20);
+            int random = (int) (Math.random() * 50 + 20);
             lSwimming.get(i).setVelocity(random);
         }
     }
@@ -427,6 +429,7 @@ public class FrmSwim extends javax.swing.JFrame {
         btnStart = new javax.swing.JButton();
         btnInfo = new javax.swing.JButton();
         btnClean = new javax.swing.JButton();
+        lblFinal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -572,39 +575,39 @@ public class FrmSwim extends javax.swing.JFrame {
         pChooseLayout.setHorizontalGroup(
             pChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pChooseLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
                 .addGroup(pChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAdd)
-                    .addComponent(btnAdd1))
-                .addContainerGap(15, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pChooseLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(21, 21, 21)
-                .addComponent(spCount, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                    .addGroup(pChooseLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAdd)
+                            .addComponent(btnAdd1)))
+                    .addGroup(pChooseLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spCount, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pChooseLayout.setVerticalGroup(
             pChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pChooseLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spCount, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spCount, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pChooseLayout.createSequentialGroup()
                         .addComponent(btnAdd)
-                        .addGap(5, 5, 5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAdd1))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
 
         getContentPane().add(pChoose);
-        pChoose.setBounds(470, 390, 280, 180);
+        pChoose.setBounds(450, 390, 250, 180);
 
         pSwimmers1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -646,48 +649,49 @@ public class FrmSwim extends javax.swing.JFrame {
         pSwimmers1Layout.setHorizontalGroup(
             pSwimmers1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pSwimmers1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addContainerGap()
                 .addGroup(pSwimmers1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4)
-                    .addComponent(txtLastName, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(txtLastName)
                     .addComponent(jLabel3)
                     .addComponent(txtName)
-                    .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(19, 19, 19)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDelete)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pSwimmers1Layout.setVerticalGroup(
             pSwimmers1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pSwimmers1Layout.createSequentialGroup()
+            .addGroup(pSwimmers1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pSwimmers1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pSwimmers1Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSave)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(pSwimmers1Layout.createSequentialGroup()
+                .addGroup(pSwimmers1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pSwimmers1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(pSwimmers1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnDelete))
+                    .addGroup(pSwimmers1Layout.createSequentialGroup()
+                        .addGroup(pSwimmers1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDelete))))
+                            .addGroup(pSwimmers1Layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSave)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         getContentPane().add(pSwimmers1);
-        pSwimmers1.setBounds(50, 390, 370, 180);
+        pSwimmers1.setBounds(120, 390, 320, 180);
 
         btnStart.setBackground(new java.awt.Color(255, 102, 102));
         btnStart.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
@@ -716,6 +720,10 @@ public class FrmSwim extends javax.swing.JFrame {
         });
         getContentPane().add(btnClean);
         btnClean.setBounds(460, 340, 67, 29);
+
+        lblFinal.setBackground(new java.awt.Color(153, 0, 0));
+        getContentPane().add(lblFinal);
+        lblFinal.setBounds(800, 100, 10, 220);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -755,6 +763,8 @@ public class FrmSwim extends javax.swing.JFrame {
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
         if (lSwimming.size() > 0) {
             go();
+        } else {
+            JOptionPane.showMessageDialog(this, "Debes esgoger los competidores primero");
         }
     }//GEN-LAST:event_btnStartActionPerformed
 
@@ -849,6 +859,7 @@ public class FrmSwim extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JList<String> lChoose;
     private javax.swing.JList<String> lSwimmers;
+    private javax.swing.JLabel lblFinal;
     private javax.swing.JLabel lblTime;
     private javax.swing.JPanel pChoose;
     private javax.swing.JPanel pPool;
