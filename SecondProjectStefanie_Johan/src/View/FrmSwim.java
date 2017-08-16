@@ -53,6 +53,7 @@ public class FrmSwim extends javax.swing.JFrame {
         statis = new Statistics();
         pPool.setSize(740, 250);
         open = false;
+        empates=0;
         posicion = 1;
         loadSwimmers();
         hideBtn(false);
@@ -126,7 +127,6 @@ public class FrmSwim extends javax.swing.JFrame {
         velocityRandom();
         posicion = 1;
         timer = new Timer();
-        empates = 0;
         cronom();
         taskRun = new TimerTask() {
             @Override
@@ -178,35 +178,35 @@ public class FrmSwim extends javax.swing.JFrame {
                         s.add(lSwimming.get(4));
                     }
                 }
-                if (btnJug1.isVisible()) {
+                if (btnJug1.isVisible() && !lSwimming.get(0).isFinish()) {
                     if (btnJug1.getX() + lSwimming.get(0).getVelocity() + btnJug1.getWidth() > (pPool.getX() + pPool.getWidth())) {
                         btnJug1.move((pPool.getX() + pPool.getWidth()) - btnJug1.getWidth(), btnJug1.getY());
                     } else {
                         btnJug1.move(btnJug1.getX() + lSwimming.get(0).getVelocity(), btnJug1.getY());
                     }
                 }
-                if (btnJug2.isVisible()) {
+                if (btnJug2.isVisible() && !lSwimming.get(1).isFinish()) {
                     if (btnJug2.getX() + lSwimming.get(1).getVelocity() + btnJug2.getWidth() > (pPool.getX() + pPool.getWidth())) {
                         btnJug2.move((pPool.getX() + pPool.getWidth()) - btnJug2.getWidth(), btnJug2.getY());
                     } else {
                         btnJug2.move(btnJug2.getX() + lSwimming.get(1).getVelocity(), btnJug2.getY());
                     }
                 }
-                if (btnJug3.isVisible()) {
+                if (btnJug3.isVisible() && !lSwimming.get(2).isFinish()) {
                     if (btnJug3.getX() + lSwimming.get(2).getVelocity() + btnJug3.getWidth() > (pPool.getX() + pPool.getWidth())) {
                         btnJug3.move((pPool.getX() + pPool.getWidth()) - btnJug3.getWidth(), btnJug3.getY());
                     } else {
                         btnJug3.move(btnJug3.getX() + lSwimming.get(2).getVelocity(), btnJug3.getY());
                     }
                 }
-                if (btnJug4.isVisible()) {
+                if (btnJug4.isVisible() && !lSwimming.get(3).isFinish()) {
                     if (btnJug4.getX() + lSwimming.get(3).getVelocity() + btnJug4.getWidth() > (pPool.getX() + pPool.getWidth())) {
                         btnJug4.move((pPool.getX() + pPool.getWidth()) - btnJug4.getWidth(), btnJug4.getY());
                     } else {
                         btnJug4.move(btnJug1.getX() + lSwimming.get(3).getVelocity(), btnJug4.getY());
                     }
                 }
-                if (btnJug5.isVisible()) {
+                if (btnJug5.isVisible() && !lSwimming.get(4).isFinish()) {
                     if (btnJug5.getX() + lSwimming.get(4).getVelocity() + btnJug5.getWidth() > (pPool.getX() + pPool.getWidth())) {
                         btnJug5.move((pPool.getX() + pPool.getWidth()) - btnJug5.getWidth(), btnJug5.getY());
                     } else {
@@ -220,6 +220,9 @@ public class FrmSwim extends javax.swing.JFrame {
                     }
                 }
                 if (s.size() > 0) {
+                    if (s.size() > 1) {
+                        empates++;
+                    }
                     winner(s);
                 }
                 if (fin) {
@@ -237,6 +240,7 @@ public class FrmSwim extends javax.swing.JFrame {
     }
 
     private void updateStatistics() {
+
         loadSwimmers();
         statisticas.setSwimmer(lSwimmer);
         statis = new Statistics(statisticas);
@@ -269,9 +273,6 @@ public class FrmSwim extends javax.swing.JFrame {
 
     private void winner(LinkedList<Models.Swimmer> s) {
         int aux = posicion;
-        if (s.size() > 1) {
-            empates++;
-        }
         for (int i = s.size(); i >= 0; i--) {
             try {
                 int random = (int) (Math.random() * (s.size() - 1) * 0);
@@ -354,7 +355,7 @@ public class FrmSwim extends javax.swing.JFrame {
                 generateSwimmers(i);
             }
             loadSwimmers();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No hay tantos competidores!");
         }
     }
@@ -524,6 +525,7 @@ public class FrmSwim extends javax.swing.JFrame {
 
         pPool.setBackground(new java.awt.Color(102, 153, 255));
         pPool.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pPool.setToolTipText("");
         pPool.setLayout(null);
         pPool.add(jSeparator2);
         jSeparator2.setBounds(375, 5, 0, 2);
@@ -668,7 +670,7 @@ public class FrmSwim extends javax.swing.JFrame {
         );
 
         getContentPane().add(pChoose);
-        pChoose.setBounds(450, 390, 250, 180);
+        pChoose.setBounds(450, 400, 250, 180);
 
         pSwimmers1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -752,7 +754,7 @@ public class FrmSwim extends javax.swing.JFrame {
         );
 
         getContentPane().add(pSwimmers1);
-        pSwimmers1.setBounds(120, 390, 320, 180);
+        pSwimmers1.setBounds(120, 400, 320, 180);
 
         btnStart.setBackground(new java.awt.Color(255, 102, 102));
         btnStart.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
@@ -840,6 +842,7 @@ public class FrmSwim extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPrepareActionPerformed
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
+        empates = 0;
         if (lSwimming.size() > 0) {
             go();
         } else {

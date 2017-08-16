@@ -64,25 +64,32 @@ public class FrmAnswer extends javax.swing.JFrame {
                 delete();
             } else if (go) {
                 if (((row == (rowActual + 1)) && (column == (columnactual)))
-                        || ((row == (rowActual)) && (column == (columnactual + 1)))) {
-                    if (row == 7 && column == 4 && (puntosGanados-2)>puntosPerdidos) {
+                        || ((row == (rowActual)) && (column == (columnactual + 1)))
+                        || ((row == (rowActual - 1)) && (column == (columnactual)))
+                        || ((row == (rowActual)) && (column == (columnactual - 1)))) {
+                    if (row == 7 && column == 4 && (puntosGanados - 2) > puntosPerdidos) {
                         JOptionPane.showMessageDialog(null, "Felicidades!!! ha ganado la partida");
                         go = false;
                         return;
+                    } else if (row == 7 && column == 4 && (puntosGanados - 2) <= puntosPerdidos) {
+                        JOptionPane.showMessageDialog(null, "Mala suerte!!! Intentalo de nuevo");
+                        go = false;
+                        return;
                     }
-                    int answer = 0;
                     try {
                         if (rowActual == -1) {
                             rowActual = 0;
                         }
                         game[rowActual][columnactual].setBackground(Color.black);
+                        game[rowActual][columnactual].setText("");
                         rowActual = row;
                         columnactual = column;
                         game[row][column].setBackground(Color.yellow);
                         game[row][column].setText("<>");
                     } catch (Exception e) {
                     }
-                        String message = "";
+                    String message = "";
+                    int answer = 0;
                     do {
                         answer = ask(message);
                         if (answer == 0) {
@@ -104,7 +111,7 @@ public class FrmAnswer extends javax.swing.JFrame {
                 }
             }
         }
-        jPerdidos.setText("Puntos perdidos: "+ puntosPerdidos);
+        jPerdidos.setText("Puntos perdidos: " + puntosPerdidos);
         jGanados.setText("Puntos ganados: " + puntosGanados);
     }
 

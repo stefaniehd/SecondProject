@@ -105,13 +105,12 @@ public class Statistics {
     public void update() {
         int emp = 0;
         int carreras = 0;
-        Models.Statistics s = this.load();
-        try {
-            String[] text = fileManager.read("Statistics.txt").split(";");
-            carreras = Integer.parseInt(text[0]);
-            emp = Integer.parseInt(text[1]);
-        } catch (Exception e) {
-        }
+//        try {
+//            String[] text = fileManager.read("Statistics.txt").split(";");
+//            carreras = Integer.parseInt(text[0]);
+//            emp = Integer.parseInt(text[1]);
+//        } catch (Exception e) {
+//        }
         emp += this.getEmpates();
         carreras += this.getRaces();
         fileManager.write("Statistics.txt", carreras + ";" + emp);
