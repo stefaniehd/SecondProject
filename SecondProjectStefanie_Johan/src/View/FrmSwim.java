@@ -7,11 +7,18 @@ package View;
 
 import Controllers.Statistics;
 import Controllers.Swimmer;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -53,7 +60,7 @@ public class FrmSwim extends javax.swing.JFrame {
         statis = new Statistics();
         pPool.setSize(740, 250);
         open = false;
-        empates=0;
+        empates = 0;
         posicion = 1;
         loadSwimmers();
         hideBtn(false);
@@ -106,21 +113,28 @@ public class FrmSwim extends javax.swing.JFrame {
     }
 
     private void hideBtn(boolean ver) {
-        btnJug1.setVisible(ver);
+        lblJug1.setVisible(ver);
         btnJug1Info.setVisible(ver);
-        btnJug2.setVisible(ver);
+        lblJug2.setVisible(ver);
         btnJug2Info.setVisible(ver);
-        btnJug3.setVisible(ver);
+        lblJug3.setVisible(ver);
         btnJug3Info.setVisible(ver);
-        btnJug4.setVisible(ver);
+        lblJug4.setVisible(ver);
         btnJug4Info.setVisible(ver);
-        btnJug5.setVisible(ver);
+        lblJug5.setVisible(ver);
         btnJug5Info.setVisible(ver);
     }
 
     private void update(Models.Swimmer swimmer) {
         Controllers.Swimmer s = new Swimmer(swimmer);
         s.update();
+    }
+
+    private void bloquearBtn(boolean ifA) {
+        btnAdd.setEnabled(ifA);
+        btnRandom.setEnabled(ifA);
+        btnStart.setEnabled(ifA);
+        btnClean.setEnabled(ifA);
     }
 
     private void go() {
@@ -133,84 +147,79 @@ public class FrmSwim extends javax.swing.JFrame {
             public void run() {
                 LinkedList<Models.Swimmer> s = new LinkedList<>();
                 String time = lblTime.getText();
-                if ((btnJug1.getX() + btnJug1.getWidth()) == (pPool.getX() + pPool.getWidth())) {
+                if ((lblJug1.getX() + lblJug1.getWidth()) >= (pPool.getX() + pPool.getWidth() - lblJug1.getWidth())) {
                     if (!lSwimming.get(0).isFinish()) {
                         lSwimming.get(0).setTime(time);
                         lSend.add(lSwimming.get(0));
-                        lSwimming.get(0).setVelocity(0);
                         lSwimming.get(0).setFinish(true);
                         s.add(lSwimming.get(0));
                     }
                 }
-                if ((btnJug2.getX() + btnJug2.getWidth()) == (pPool.getX() + pPool.getWidth())) {
+                if ((lblJug2.getX() + lblJug2.getWidth()) >= (pPool.getX() + pPool.getWidth() - lblJug2.getWidth())) {
                     if (!lSwimming.get(1).isFinish()) {
                         lSwimming.get(1).setTime(time);
                         lSend.add(lSwimming.get(1));
-                        lSwimming.get(1).setVelocity(0);
                         lSwimming.get(1).setFinish(true);
                         s.add(lSwimming.get(1));
                     }
                 }
-                if ((btnJug3.getX() + btnJug3.getWidth()) == (pPool.getX() + pPool.getWidth())) {
+                if ((lblJug3.getX() + lblJug3.getWidth()) >= (pPool.getX() + pPool.getWidth() - lblJug3.getWidth())) {
                     if (!lSwimming.get(2).isFinish()) {
                         lSwimming.get(2).setTime(time);
                         lSend.add(lSwimming.get(2));
-                        lSwimming.get(2).setVelocity(0);
                         lSwimming.get(2).setFinish(true);
                         s.add(lSwimming.get(2));
                     }
                 }
-                if ((btnJug4.getX() + btnJug4.getWidth()) == (pPool.getX() + pPool.getWidth())) {
+                if ((lblJug4.getX() + lblJug4.getWidth()) >= (pPool.getX() + pPool.getWidth() - lblJug4.getWidth())) {
                     if (!lSwimming.get(3).isFinish()) {
                         lSwimming.get(3).setTime(time);
                         lSend.add(lSwimming.get(3));
-                        lSwimming.get(3).setVelocity(0);
                         lSwimming.get(3).setFinish(true);
                         s.add(lSwimming.get(3));
                     }
                 }
-                if ((btnJug5.getX() + btnJug5.getWidth()) == (pPool.getX() + pPool.getWidth())) {
+                if ((lblJug5.getX() + lblJug5.getWidth()) >= (pPool.getX() + pPool.getWidth() - lblJug5.getWidth())) {
                     if (!lSwimming.get(4).isFinish()) {
                         lSwimming.get(4).setTime(time);
                         lSend.add(lSwimming.get(4));
-                        lSwimming.get(4).setVelocity(0);
                         lSwimming.get(4).setFinish(true);
                         s.add(lSwimming.get(4));
                     }
                 }
-                if (btnJug1.isVisible() && !lSwimming.get(0).isFinish()) {
-                    if (btnJug1.getX() + lSwimming.get(0).getVelocity() + btnJug1.getWidth() > (pPool.getX() + pPool.getWidth())) {
-                        btnJug1.move((pPool.getX() + pPool.getWidth()) - btnJug1.getWidth(), btnJug1.getY());
+                if (lblJug1.isVisible() && !lSwimming.get(0).isFinish()) {
+                    if (lblJug1.getX() + lSwimming.get(0).getVelocity() + lblJug1.getWidth() > (pPool.getX() + pPool.getWidth())) {
+                        lblJug1.move((pPool.getX() + pPool.getWidth()) - lblJug1.getWidth(), lblJug1.getY());
                     } else {
-                        btnJug1.move(btnJug1.getX() + lSwimming.get(0).getVelocity(), btnJug1.getY());
+                        lblJug1.move(lblJug1.getX() + lSwimming.get(0).getVelocity(), lblJug1.getY());
                     }
                 }
-                if (btnJug2.isVisible() && !lSwimming.get(1).isFinish()) {
-                    if (btnJug2.getX() + lSwimming.get(1).getVelocity() + btnJug2.getWidth() > (pPool.getX() + pPool.getWidth())) {
-                        btnJug2.move((pPool.getX() + pPool.getWidth()) - btnJug2.getWidth(), btnJug2.getY());
+                if (lblJug2.isVisible() && !lSwimming.get(1).isFinish()) {
+                    if (lblJug2.getX() + lSwimming.get(1).getVelocity() + lblJug2.getWidth() > (pPool.getX() + pPool.getWidth())) {
+                        lblJug2.move((pPool.getX() + pPool.getWidth()) - lblJug2.getWidth(), lblJug2.getY());
                     } else {
-                        btnJug2.move(btnJug2.getX() + lSwimming.get(1).getVelocity(), btnJug2.getY());
+                        lblJug2.move(lblJug2.getX() + lSwimming.get(1).getVelocity(), lblJug2.getY());
                     }
                 }
-                if (btnJug3.isVisible() && !lSwimming.get(2).isFinish()) {
-                    if (btnJug3.getX() + lSwimming.get(2).getVelocity() + btnJug3.getWidth() > (pPool.getX() + pPool.getWidth())) {
-                        btnJug3.move((pPool.getX() + pPool.getWidth()) - btnJug3.getWidth(), btnJug3.getY());
+                if (lblJug3.isVisible() && !lSwimming.get(2).isFinish()) {
+                    if (lblJug3.getX() + lSwimming.get(2).getVelocity() + lblJug3.getWidth() > (pPool.getX() + pPool.getWidth())) {
+                        lblJug3.move((pPool.getX() + pPool.getWidth()) - lblJug3.getWidth(), lblJug3.getY());
                     } else {
-                        btnJug3.move(btnJug3.getX() + lSwimming.get(2).getVelocity(), btnJug3.getY());
+                        lblJug3.move(lblJug3.getX() + lSwimming.get(2).getVelocity(), lblJug3.getY());
                     }
                 }
-                if (btnJug4.isVisible() && !lSwimming.get(3).isFinish()) {
-                    if (btnJug4.getX() + lSwimming.get(3).getVelocity() + btnJug4.getWidth() > (pPool.getX() + pPool.getWidth())) {
-                        btnJug4.move((pPool.getX() + pPool.getWidth()) - btnJug4.getWidth(), btnJug4.getY());
+                if (lblJug4.isVisible() && !lSwimming.get(3).isFinish()) {
+                    if (lblJug4.getX() + lSwimming.get(3).getVelocity() + lblJug4.getWidth() > (pPool.getX() + pPool.getWidth())) {
+                        lblJug4.move((pPool.getX() + pPool.getWidth()) - lblJug4.getWidth(), lblJug4.getY());
                     } else {
-                        btnJug4.move(btnJug1.getX() + lSwimming.get(3).getVelocity(), btnJug4.getY());
+                        lblJug4.move(lblJug1.getX() + lSwimming.get(3).getVelocity(), lblJug4.getY());
                     }
                 }
-                if (btnJug5.isVisible() && !lSwimming.get(4).isFinish()) {
-                    if (btnJug5.getX() + lSwimming.get(4).getVelocity() + btnJug5.getWidth() > (pPool.getX() + pPool.getWidth())) {
-                        btnJug5.move((pPool.getX() + pPool.getWidth()) - btnJug5.getWidth(), btnJug5.getY());
+                if (lblJug5.isVisible() && !lSwimming.get(4).isFinish()) {
+                    if (lblJug5.getX() + lSwimming.get(4).getVelocity() + lblJug5.getWidth() > (pPool.getX() + pPool.getWidth())) {
+                        lblJug5.move((pPool.getX() + pPool.getWidth()) - lblJug5.getWidth(), lblJug5.getY());
                     } else {
-                        btnJug5.move(btnJug5.getX() + lSwimming.get(4).getVelocity(), btnJug5.getY());
+                        lblJug5.move(lblJug5.getX() + lSwimming.get(4).getVelocity(), lblJug5.getY());
                     }
                 }
                 boolean fin = true;
@@ -220,9 +229,6 @@ public class FrmSwim extends javax.swing.JFrame {
                     }
                 }
                 if (s.size() > 0) {
-                    if (s.size() > 1) {
-                        empates++;
-                    }
                     winner(s);
                 }
                 if (fin) {
@@ -230,13 +236,32 @@ public class FrmSwim extends javax.swing.JFrame {
                     taskCronom.cancel();
                     timer.cancel();
                     taskRun.cancel();
+                    empates();
                     statisticas.setRaces(statisticas.getRaces() + 1);
                     statisticas.setEmpates(statisticas.getEmpates() + empates);
                     updateStatistics();
+                    bloquearBtn(true);
                 }
             }
         };
         timer.schedule(taskRun, 100, 100);
+    }
+
+    private void empates() {
+        LinkedList<Models.Swimmer> s = lSwimming;
+        empates = 0;
+        boolean hay = false;
+        for (int i = 0; i < s.size(); i++) {
+            for (int j = i + 1; j < s.size(); j++) {
+                if (s.get(i).getTime().equals(s.get(j).getVelocity())) {
+                    hay = true;
+                    s.remove(j);
+                }
+            }
+            if (hay) {
+                empates++;
+            }
+        }
     }
 
     private void updateStatistics() {
@@ -361,6 +386,14 @@ public class FrmSwim extends javax.swing.JFrame {
     }
 
     private void generateSwimmers(int count) {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("swimming2.jpg"));
+        } catch (IOException e) {
+        }
+        Image dimg = img.getScaledInstance(lblJug1.getWidth(), lblJug1.getHeight(),
+        Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(dimg);
         for (int i = 0; i < lSwimming.size(); i++) {
             String texto = "";
             switch (i) {
@@ -368,35 +401,40 @@ public class FrmSwim extends javax.swing.JFrame {
                     texto = "Name: " + lSwimming.get(0).getName() + " "
                             + lSwimming.get(0).getLastName();
                     btnJug1Info.setToolTipText(texto);
-                    btnJug1.setVisible(true);
+                    lblJug1.setVisible(true);
+                    lblJug1.setIcon(imageIcon);
                     btnJug1Info.setVisible(true);
                     break;
                 case 1:
                     texto = "Name: " + lSwimming.get(1).getName() + " "
                             + lSwimming.get(1).getLastName();
                     btnJug2Info.setToolTipText(texto);
-                    btnJug2.setVisible(true);
+                    lblJug2.setVisible(true);
+                    lblJug2.setIcon(imageIcon);
                     btnJug2Info.setVisible(true);
                     break;
                 case 2:
                     texto = "Name: " + lSwimming.get(2).getName() + " "
                             + lSwimming.get(2).getLastName();
                     btnJug3Info.setToolTipText(texto);
-                    btnJug3.setVisible(true);
+                    lblJug3.setVisible(true);
+                    lblJug3.setIcon(imageIcon);
                     btnJug3Info.setVisible(true);
                     break;
                 case 3:
                     texto = "Name: " + lSwimming.get(3).getName() + " "
                             + lSwimming.get(3).getLastName();
                     btnJug4Info.setToolTipText(texto);
-                    btnJug4.setVisible(true);
+                    lblJug4.setVisible(true);
+                    lblJug4.setIcon(imageIcon);
                     btnJug4Info.setVisible(true);
                     break;
                 case 4:
                     texto = "Name: " + lSwimming.get(4).getName() + " "
                             + lSwimming.get(4).getLastName();
                     btnJug5Info.setToolTipText(texto);
-                    btnJug5.setVisible(true);
+                    lblJug5.setVisible(true);
+                    lblJug5.setIcon(imageIcon);
                     btnJug5Info.setVisible(true);
                     break;
             }
@@ -430,11 +468,11 @@ public class FrmSwim extends javax.swing.JFrame {
         btnJug3Info.setToolTipText("");
         btnJug4Info.setToolTipText("");
         btnJug5Info.setToolTipText("");
-        btnJug1.move(10, btnJug1.getY());
-        btnJug2.move(10, btnJug2.getY());
-        btnJug3.move(10, btnJug3.getY());
-        btnJug4.move(10, btnJug4.getY());
-        btnJug5.move(10, btnJug5.getY());
+        lblJug1.move(10, lblJug1.getY());
+        lblJug2.move(10, lblJug2.getY());
+        lblJug3.move(10, lblJug3.getY());
+        lblJug4.move(10, lblJug4.getY());
+        lblJug5.move(10, lblJug5.getY());
     }
 
     private void velocityRandom() {
@@ -459,11 +497,11 @@ public class FrmSwim extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JSeparator();
         jSeparator6 = new javax.swing.JSeparator();
         jSeparator7 = new javax.swing.JSeparator();
-        btnJug5 = new javax.swing.JButton();
-        btnJug1 = new javax.swing.JButton();
-        btnJug2 = new javax.swing.JButton();
-        btnJug3 = new javax.swing.JButton();
-        btnJug4 = new javax.swing.JButton();
+        lblJug2 = new javax.swing.JLabel();
+        lblJug1 = new javax.swing.JLabel();
+        lblJug3 = new javax.swing.JLabel();
+        lblJug4 = new javax.swing.JLabel();
+        lblJug5 = new javax.swing.JLabel();
         btnJug1Info = new javax.swing.JButton();
         btnJug2Info = new javax.swing.JButton();
         btnJug3Info = new javax.swing.JButton();
@@ -473,7 +511,7 @@ public class FrmSwim extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         lChoose = new javax.swing.JList<>();
         btnAdd = new javax.swing.JButton();
-        btnAdd1 = new javax.swing.JButton();
+        btnRandom = new javax.swing.JButton();
         spCount = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
         pSwimmers1 = new javax.swing.JPanel();
@@ -523,7 +561,7 @@ public class FrmSwim extends javax.swing.JFrame {
         getContentPane().add(btnJug5Info);
         btnJug5Info.setBounds(10, 290, 40, 30);
 
-        pPool.setBackground(new java.awt.Color(102, 153, 255));
+        pPool.setBackground(new java.awt.Color(1, 0, 128));
         pPool.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pPool.setToolTipText("");
         pPool.setLayout(null);
@@ -546,30 +584,30 @@ public class FrmSwim extends javax.swing.JFrame {
         pPool.add(jSeparator7);
         jSeparator7.setBounds(10, 150, 710, 10);
 
-        btnJug5.setBackground(new java.awt.Color(255, 102, 102));
-        btnJug5.setFont(new java.awt.Font("Comic Sans MS", 0, 8)); // NOI18N
-        pPool.add(btnJug5);
-        btnJug5.setBounds(10, 210, 70, 30);
+        lblJug2.setBackground(new java.awt.Color(0, 0, 153));
+        lblJug2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pPool.add(lblJug2);
+        lblJug2.setBounds(10, 60, 60, 30);
 
-        btnJug1.setBackground(new java.awt.Color(255, 102, 102));
-        btnJug1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        pPool.add(btnJug1);
-        btnJug1.setBounds(10, 10, 70, 30);
+        lblJug1.setBackground(new java.awt.Color(0, 0, 153));
+        lblJug1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pPool.add(lblJug1);
+        lblJug1.setBounds(10, 10, 60, 30);
 
-        btnJug2.setBackground(new java.awt.Color(255, 102, 102));
-        btnJug2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        pPool.add(btnJug2);
-        btnJug2.setBounds(10, 60, 70, 30);
+        lblJug3.setBackground(new java.awt.Color(0, 0, 153));
+        lblJug3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pPool.add(lblJug3);
+        lblJug3.setBounds(10, 110, 60, 30);
 
-        btnJug3.setBackground(new java.awt.Color(255, 102, 102));
-        btnJug3.setFont(new java.awt.Font("Comic Sans MS", 0, 8)); // NOI18N
-        pPool.add(btnJug3);
-        btnJug3.setBounds(10, 110, 70, 30);
+        lblJug4.setBackground(new java.awt.Color(0, 0, 153));
+        lblJug4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pPool.add(lblJug4);
+        lblJug4.setBounds(10, 160, 60, 30);
 
-        btnJug4.setBackground(new java.awt.Color(255, 102, 102));
-        btnJug4.setFont(new java.awt.Font("Comic Sans MS", 0, 8)); // NOI18N
-        pPool.add(btnJug4);
-        btnJug4.setBounds(10, 160, 70, 30);
+        lblJug5.setBackground(new java.awt.Color(0, 0, 153));
+        lblJug5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pPool.add(lblJug5);
+        lblJug5.setBounds(10, 210, 60, 30);
 
         getContentPane().add(pPool);
         pPool.setBounds(60, 80, 740, 250);
@@ -618,12 +656,12 @@ public class FrmSwim extends javax.swing.JFrame {
             }
         });
 
-        btnAdd1.setBackground(new java.awt.Color(255, 102, 102));
-        btnAdd1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        btnAdd1.setText("Random");
-        btnAdd1.addActionListener(new java.awt.event.ActionListener() {
+        btnRandom.setBackground(new java.awt.Color(255, 102, 102));
+        btnRandom.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        btnRandom.setText("Random");
+        btnRandom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdd1ActionPerformed(evt);
+                btnRandomActionPerformed(evt);
             }
         });
 
@@ -645,7 +683,7 @@ public class FrmSwim extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAdd)
-                            .addComponent(btnAdd1)))
+                            .addComponent(btnRandom)))
                     .addGroup(pChooseLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -664,7 +702,7 @@ public class FrmSwim extends javax.swing.JFrame {
                     .addGroup(pChooseLayout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAdd1))
+                        .addComponent(btnRandom))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
@@ -842,17 +880,17 @@ public class FrmSwim extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPrepareActionPerformed
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
-        empates = 0;
         if (lSwimming.size() > 0) {
+            bloquearBtn(false);
             go();
         } else {
             JOptionPane.showMessageDialog(this, "Debes esgoger los competidores primero");
         }
     }//GEN-LAST:event_btnStartActionPerformed
 
-    private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
+    private void btnRandomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRandomActionPerformed
         chooseSwimmers();
-    }//GEN-LAST:event_btnAdd1ActionPerformed
+    }//GEN-LAST:event_btnRandomActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         addChoose();
@@ -916,22 +954,17 @@ public class FrmSwim extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnAdd1;
     private javax.swing.JButton btnClean;
     private javax.swing.JButton btnCleanSta;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnInfo;
-    private javax.swing.JButton btnJug1;
     private javax.swing.JButton btnJug1Info;
-    private javax.swing.JButton btnJug2;
     private javax.swing.JButton btnJug2Info;
-    private javax.swing.JButton btnJug3;
     private javax.swing.JButton btnJug3Info;
-    private javax.swing.JButton btnJug4;
     private javax.swing.JButton btnJug4Info;
-    private javax.swing.JButton btnJug5;
     private javax.swing.JButton btnJug5Info;
     private javax.swing.JButton btnPrepare;
+    private javax.swing.JButton btnRandom;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnStart;
     private javax.swing.JButton btnSwimmers;
@@ -951,6 +984,11 @@ public class FrmSwim extends javax.swing.JFrame {
     private javax.swing.JList<String> lChoose;
     private javax.swing.JList<String> lSwimmers;
     private javax.swing.JLabel lblFinal;
+    private javax.swing.JLabel lblJug1;
+    private javax.swing.JLabel lblJug2;
+    private javax.swing.JLabel lblJug3;
+    private javax.swing.JLabel lblJug4;
+    private javax.swing.JLabel lblJug5;
     private javax.swing.JLabel lblTime;
     private javax.swing.JPanel pChoose;
     private javax.swing.JPanel pPool;

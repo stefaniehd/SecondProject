@@ -94,8 +94,8 @@ public class FrmAnswer extends javax.swing.JFrame {
                         answer = ask(message);
                         if (answer == 0) {
                             puntosGanados++;
-                            JOptionPane.showMessageDialog(null, "Puede eliminar un obstaculo"
-                                    + "o elegir\nel comdín y avanzar una posición");
+                            JOptionPane.showMessageDialog(null, "Puede avanzar y eliminar un obstaculo\n"
+                                    + "o elegir el comdín para ganar");
                             delete = true;
                             delete();
                             go = true;
@@ -143,6 +143,9 @@ public class FrmAnswer extends javax.swing.JFrame {
     }
 
     private int ask(String messageSent) {
+        if (question.isEmpty()) {
+            loadQuestions();
+        }
         int rdm = (int) (Math.random() * (question.size() - 1) + 0);
         String message = messageSent;
         message += question.get(rdm).getQuestion();
