@@ -51,30 +51,24 @@ public class FrmComodin extends javax.swing.JDialog {
     private void time() {
         cronom = new Timer();
         taskCronom = new TimerTask() {
-            int mili = 0;
             int seg = 0;
             int min = 0;
 
             @Override
             public void run() {
-                mili++;
-                if (mili == 999) {
-                    seg++;
-                    mili = 0;
-                }
-                if (seg == 59 && mili == 999) {
+                seg++;
+                if (seg == 59) {
                     min++;
                     seg = 0;
-                    mili = 0;
                 }
                 String time = min + ":" + seg;
                 lblTime.setText("Time: " + time);
-                if (time.equals("1:00")) {
+                if (time.equals("1:0")) {
                     fin();
                 }
             }
         };
-        cronom.schedule(taskCronom, 0, 1);
+        cronom.schedule(taskCronom, 0, 1000);
     }
 
     private void fin() {
