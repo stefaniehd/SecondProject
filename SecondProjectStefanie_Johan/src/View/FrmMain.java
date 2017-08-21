@@ -23,6 +23,9 @@ public class FrmMain extends javax.swing.JFrame {
         load();
     }
 
+    /**
+     * loads an image into a label
+     */
     private void load() {
             ImageIcon welcome = new ImageIcon("welcome.png");
             Image image = welcome.getImage();

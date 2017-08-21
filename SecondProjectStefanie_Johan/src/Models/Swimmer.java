@@ -92,6 +92,9 @@ public class Swimmer {
         this.time = time;
     }
 
+    /**
+     * adds a new swimmer in the text file
+     */
     public void add() {
         String text = "";
         try {
@@ -104,6 +107,9 @@ public class Swimmer {
         fileManager.write("swimmers.txt", text);
     }
 
+    /**
+     * deletes a swimmer from the text file
+     */
     public void delete() {
         String[] text = fileManager.read("swimmers.txt").split("\n");
         String finalText = "";
@@ -119,6 +125,10 @@ public class Swimmer {
         fileManager.write("swimmers.txt", finalText);
     }
 
+    /**
+     * selects the swimmers information and creates a list with that information
+     * @return the list
+     */
     public LinkedList<Models.Swimmer> select() {
         LinkedList<Models.Swimmer> s = new LinkedList<>();
         try {
@@ -138,6 +148,9 @@ public class Swimmer {
         return s;
     }
 
+    /**
+     * update the information of a swimmer
+     */
     public void update() {
         String[] text = fileManager.read("swimmers.txt").split("\n");
         String finalText = "";

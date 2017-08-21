@@ -40,6 +40,9 @@ public class FrmComodin extends javax.swing.JDialog {
         this.respesta = respesta;
     }
 
+    /**
+     * generates a random code
+     */
     private void random() {
         random="";
         for (int i = 0; i < 3; i++) {
@@ -48,6 +51,9 @@ public class FrmComodin extends javax.swing.JDialog {
         System.out.println(random);
     }
 
+    /**
+     * shows time on the screen
+     */
     private void time() {
         cronom = new Timer();
         taskCronom = new TimerTask() {
@@ -71,12 +77,18 @@ public class FrmComodin extends javax.swing.JDialog {
         cronom.schedule(taskCronom, 0, 1000);
     }
 
+    /**
+     * checks that the time doesn´t pass the limit
+     */
     private void fin() {
         JOptionPane.showMessageDialog(null, "Se ha acabado el tiempo!");
         respesta = false;
         this.dispose();
     }
 
+    /**
+     * verifies if the answer is right or wrong
+     */
     private void tryAnswer() {
         String aux = sUno.getValue().toString();
         aux += sDos.getValue().toString();

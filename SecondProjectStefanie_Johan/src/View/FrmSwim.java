@@ -67,12 +67,18 @@ public class FrmSwim extends javax.swing.JFrame {
         sta();
     }
 
+    /**
+     * loads  the list of swimmers
+     */
     private void loadSwimmers() {
         Controllers.Swimmer s = new Swimmer();
         lSwimmer = s.select();
         showSwimers();
     }
 
+    /**
+     * shows the swimmer on the screen
+     */
     private void showSwimers() {
         model.clear();
         for (int i = 0; i < lSwimmer.size(); i++) {
@@ -80,6 +86,9 @@ public class FrmSwim extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * adds a new swimmer
+     */
     private void addSwimmer() {
         Models.Swimmer swimmer = new Models.Swimmer();
         swimmer.setName(txtName.getText().trim());
@@ -92,6 +101,9 @@ public class FrmSwim extends javax.swing.JFrame {
         loadSwimmers();
     }
 
+    /**
+     * delete a swimmer
+     */
     private void deleteSwimmer() {
         int select = lSwimmers.getSelectedIndex();
         if (select > -1) {
@@ -104,6 +116,10 @@ public class FrmSwim extends javax.swing.JFrame {
         loadSwimmers();
     }
 
+    /**
+     * gets a random code to a new swimmer
+     * @return 
+     */
     private String getCode() {
         String code = "";
         for (int i = 0; i < 6; i++) {
@@ -112,6 +128,10 @@ public class FrmSwim extends javax.swing.JFrame {
         return code;
     }
 
+    /**
+     * hides and shows the buttons
+     * @param ver (true or false)
+     */
     private void hideBtn(boolean ver) {
         lblJug1.setVisible(ver);
         btnJug1Info.setVisible(ver);
@@ -125,11 +145,19 @@ public class FrmSwim extends javax.swing.JFrame {
         btnJug5Info.setVisible(ver);
     }
 
+    /**
+     * update the swimmer information
+     * @param swimmer 
+     */
     private void update(Models.Swimmer swimmer) {
         Controllers.Swimmer s = new Swimmer(swimmer);
         s.update();
     }
 
+    /**
+     * disables the buttons
+     * @param ifA 
+     */
     private void bloquearBtn(boolean ifA) {
         btnAdd.setEnabled(ifA);
         btnRandom.setEnabled(ifA);
@@ -137,6 +165,9 @@ public class FrmSwim extends javax.swing.JFrame {
         btnClean.setEnabled(ifA);
     }
 
+    /**
+     * starts the game and doesn't stop until the game over
+     */
     private void go() {
         velocityRandom();
         posicion = 1;
@@ -247,6 +278,9 @@ public class FrmSwim extends javax.swing.JFrame {
         timer.schedule(taskRun, 100, 100);
     }
 
+    /**
+     * checks if there are draws in the game
+     */
     private void empates() {
         LinkedList<Models.Swimmer> s = lSwimming;
         empates = 0;
@@ -264,6 +298,9 @@ public class FrmSwim extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * updates the game statistics
+     */
     private void updateStatistics() {
 
         loadSwimmers();
@@ -272,6 +309,9 @@ public class FrmSwim extends javax.swing.JFrame {
         statis.update();
     }
 
+    /**
+     * cleans the game statistics
+     */
     private void cleanStatistics() {
         statisticas = new Models.Statistics();
         statisticas.setSwimmer(lSwimmer);
@@ -285,17 +325,27 @@ public class FrmSwim extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * reloads the game statistics
+     */
     private void sta() {
         loadSwimmers();
         statisticas.setSwimmer(lSwimmer);
         statis = new Statistics(statisticas);
     }
 
+    /**
+     * shows the statistics report
+     */
     private void report() {
         sta();
         JOptionPane.showMessageDialog(null, statis.report(), "Reporte", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * When there is a draw, it gets randomly the order
+     * @param s 
+     */
     private void winner(LinkedList<Models.Swimmer> s) {
         int aux = posicion;
         for (int i = s.size(); i >= 0; i--) {
@@ -322,6 +372,11 @@ public class FrmSwim extends javax.swing.JFrame {
         posicion = aux;
     }
 
+    /**
+     * searchs for a button with the number
+     * @param num (number of the button)
+     * @return the button
+     */
     private JButton btn(int num) {
         switch (num) {
             case 0:
@@ -338,6 +393,9 @@ public class FrmSwim extends javax.swing.JFrame {
         return null;
     }
 
+    /**
+     * shows on the screen the time of the game
+     */
     private void cronom() {
         cronom = new Timer();
         taskCronom = new TimerTask() {
@@ -370,6 +428,9 @@ public class FrmSwim extends javax.swing.JFrame {
         cronom.schedule(taskCronom, 0, 1);
     }
 
+    /**
+     * it adds automatically swimmers to the race
+     */
     private void chooseSwimmers() {
         int count = Integer.parseInt(spCount.getValue().toString());
         if (count <= lSwimmer.size()) {
@@ -385,6 +446,10 @@ public class FrmSwim extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * sets an image in the swimmer button
+     * @param count (number of the button)
+     */
     private void generateSwimmers(int count) {
         BufferedImage img = null;
         try {
@@ -441,6 +506,9 @@ public class FrmSwim extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * it adds manually a swimmer to the race
+     */
     private void addChoose() {
         int select = lChoose.getSelectedIndex();
         int count = Integer.parseInt(spCount.getValue().toString());
@@ -452,6 +520,9 @@ public class FrmSwim extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * cleans the interface
+     */
     private void clean() {
         loadSwimmers();
         hideBtn(false);
@@ -475,6 +546,9 @@ public class FrmSwim extends javax.swing.JFrame {
         lblJug5.move(10, lblJug5.getY());
     }
 
+    /**
+     * generates a random velocity
+     */
     private void velocityRandom() {
         for (int i = lSwimming.size() - 1; i >= 0; i--) {
             int random = (int) (Math.random() * 5 + 1);

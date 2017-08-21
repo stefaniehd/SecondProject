@@ -55,6 +55,10 @@ public class Question {
         this.falseAnswer = answerTwo;
     }
     
+    /**
+     * reads a text file with the questions
+     * @return a list with the questions
+     */
     public LinkedList<Models.Question> select(){
         LinkedList<Models.Question> q = new LinkedList<>();
         String [] text = fileManager.read("questions.txt").split("\n");

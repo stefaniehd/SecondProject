@@ -44,6 +44,11 @@ public class FrmAnswer extends javax.swing.JFrame {
         delete();
     }
 
+    /**
+     * verifies the movement and ask for a question
+     * @param row (row selected)
+     * @param column (column selected)
+     */
     private void play(int row, int column) {
         if (delete && (game[row][column].getText().equals("c"))) {
             FrmComodin oComodin = new FrmComodin(this, true);
@@ -115,6 +120,9 @@ public class FrmAnswer extends javax.swing.JFrame {
         jGanados.setText("Puntos ganados: " + puntosGanados);
     }
 
+    /**
+     * deletes a obstacle or a wildcard
+     */
     private void delete() {
         for (int i = 0; i < game.length; i++) {
             for (int j = 0; j < game[i].length; j++) {
@@ -127,6 +135,9 @@ public class FrmAnswer extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * sets a new obstacle
+     */
     private void newTrouble() {
         boolean pass = true;
         do {
@@ -142,6 +153,11 @@ public class FrmAnswer extends javax.swing.JFrame {
         delete();
     }
 
+    /**
+     * asks a question to continue
+     * @param messageSent (simple message to the player)
+     * @return 
+     */
     private int ask(String messageSent) {
         if (question.isEmpty()) {
             loadQuestions();
@@ -158,6 +174,9 @@ public class FrmAnswer extends javax.swing.JFrame {
         return answer;
     }
 
+    /**
+     * inserts all the interface buttons in the matriz
+     */
     private void loadButton() {
         for (int i = 0; i < game.length; i++) {
             for (int j = 0; j < game[i].length; j++) {
@@ -167,11 +186,17 @@ public class FrmAnswer extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * loads the game questions
+     */
     private void loadQuestions() {
         Controllers.Question q = new Question();
         question = q.select();
     }
 
+    /**
+     * generates the obstacles
+     */
     private void troubles() {
         int count = 0;
         while (count < 10) {
@@ -193,6 +218,9 @@ public class FrmAnswer extends javax.swing.JFrame {
         comodin();
     }
 
+    /**
+     * generates the wildcard
+     */
     private void comodin() {
         boolean fin = true;
         do {
@@ -207,6 +235,11 @@ public class FrmAnswer extends javax.swing.JFrame {
         } while (fin);
     }
 
+    /**
+     * searchs a button in a requiered position
+     * @param position (postition selected)
+     * @return the button from the position
+     */
     private JButton getButton(String position) {
         switch (position) {
             case "0_0":

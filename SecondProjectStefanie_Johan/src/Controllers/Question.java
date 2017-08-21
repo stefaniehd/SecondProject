@@ -22,6 +22,10 @@ public class Question {
         this.question = question;
     }
     
+    /**
+     * selects the whole questions
+     * @return a list with all the questions
+     */
     public LinkedList<Models.Question> select(){
         return question.select();
     }

@@ -18,6 +18,12 @@ import java.io.IOException;
  * @author Stefanie
  */
 public class FileManager {
+    
+    /**
+     * reads a text file
+     * @param fileName (the name of the text file)
+     * @return the text from the file
+     */
     public String read(String fileName) {
         String texto = "";
         FileReader archivo = null;

@@ -65,10 +65,17 @@ public class Statistics {
         this.swimmer = swimmer;
     }
 
+    /**
+     * cleans the text file qith the statistics
+     */
     public void clean() {
         fileManager.write("Statistics.txt", "0;0");
     }
 
+    /**
+     * loads the statistics from a text file
+     * @return a list with the statistics
+     */
     public Models.Statistics load() {
         Models.Statistics s = new Statistics();
         String[] text = fileManager.read("Statistics.txt").split(";");
@@ -80,6 +87,10 @@ public class Statistics {
         return s;
     }
 
+    /**
+     * generates a report with the statistics
+     * @return the report
+     */
     public String generateReport() {
         String result = "";
         Models.Statistics s = load();
@@ -102,20 +113,21 @@ public class Statistics {
         return result;
     }
 
+    /**
+     * updates the statistics
+     */
     public void update() {
         int emp = 0;
         int carreras = 0;
-//        try {
-//            String[] text = fileManager.read("Statistics.txt").split(";");
-//            carreras = Integer.parseInt(text[0]);
-//            emp = Integer.parseInt(text[1]);
-//        } catch (Exception e) {
-//        }
         emp += this.getEmpates();
         carreras += this.getRaces();
         fileManager.write("Statistics.txt", carreras + ";" + emp);
     }
 
+    /**
+     * looks for the person who has won the most
+     * @return the name
+     */
     private String ganador() {
         String nombre = "";
         try {
@@ -130,6 +142,10 @@ public class Statistics {
         return nombre;
     }
 
+    /**
+     * looks for the person who has lost the most
+     * @return the name
+     */
     private String perdedor() {
         String nombre = "";
         try {

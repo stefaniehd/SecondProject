@@ -21,18 +21,32 @@ public class Statistics {
         this.statistics = statistics;
     }
 
+    /**
+     * Brings a report with the statistics of the game
+     * @return the report
+     */
     public String report() {
         return this.statistics.generateReport();
     }
 
+    /**
+     * cleans the statistics saved
+     */
     public void clean() {
         this.statistics.clean();
     }
 
+    /**
+     * loads the statistics
+     * @return 
+     */
     public Models.Statistics load() {
         return this.statistics.load();
     }
 
+    /**
+     * update the statistics
+     */
     public void update() {
         this.statistics.update();
     }

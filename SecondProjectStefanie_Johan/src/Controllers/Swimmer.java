@@ -22,18 +22,31 @@ public class Swimmer {
         swimmer= new Models.Swimmer();
     }
     
+    /**
+     * inserts a new swimmer
+     */
     public void add(){
         swimmer.add();
     }
     
+    /**
+     * deletes a swimmer
+     */
     public void delete(){
         swimmer.delete();
     }
     
+    /**
+     * selects the information about the swimmers
+     * @return the list with the information
+     */
     public LinkedList<Models.Swimmer> select(){
         return swimmer.select();
     }
     
+    /**
+     * update the information of a swimmer
+     */
     public void update(){
         swimmer.update();
     }
