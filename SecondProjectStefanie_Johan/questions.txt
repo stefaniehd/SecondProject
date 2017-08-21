@@ -1,4 +1,4 @@
-Cual es el significado de OOP?;Programacion Orientada a Objetos;Principio de Objetos Orientados
+Cual es el significado de POO?;Programacion Orientada a Objetos;Principio de Objetos Orientados
 Que significa IDE?; Entorno de Desarrollo Integrado;Educacion de Desarrollo Informatico
 NetBeans es un IDE de cual lenguaje?;Java;C#
 Quien creo Facebook?;Mark Zuckerberg;Bill Gates
@@ -11,12 +11,30 @@ Obstaculos para programar?;Ninguno;Muchos
 Se prodria decir que un frame es __________?;Una ventana;Un diseño
 Single responsibility es ___________?;Un principio de programacion;Un termino informatico
 El principio Open-closed dice que una entidad debe estar abierta para extension pero no para modificion;Cierto;Falso
-La relación entre una clase general y otra clase más específica es denominada como ___________?;Herencia;Poliformismo
+La relacion entre una clase general y otra clase mas especifica es denominada como ___________?;Herencia;Poliformismo
 En java la propiedad setLocationRelativeTo(null) __________ la ventana.;Centra;inicializa
 Las entidades pueden tener ________?;atributos;empleados
 La herencia permite que una clase herede de _______?;Otra clase;Muchas clases
 Un componente de Programacion Orientada a Objetos es __________.;Poliformismo;Base de datos
 Mediante ella podemos llegar a armar un conjunto de clases?;La abstraccion;IDE
-JavaScript está relacionado con Java?;No;Si
+JavaScript esta relacionado con Java?;No;Si
 Un suceso en el sistema es _________?;Un evento;Un movimiento
 La identidad es un componente de ___________;Un Objeto;Un Evento
+QA es__________;Aseguramiento de calidad; Quality advice
+TI es___________;Tecnologias de la informacion;Tecnologias informaticas
+Wannacry_____________;Codificaba informacion;Ayudaba a las empresas
+Java es un lenguaje de ___________;Bajo nivel;Alto nivel
+Una base de datos facilita _______;El respaldo de la informacion;Perdida de información
+Facebook fue lanzado en el ______;2004;2015
+Es un tipo de error que se da en tiempo de ejecucion;Excepciones;Fail
+Es la acción u operación que realiza un objeto;Metodo;Herencia
+Su principal función es inicializar las variables de la clase;Metodo Constructor;Metodo Main()
+Es una entidad que se caracteriza por sus atributos;Objeto;Lapiz
+Son algunos ejemplos de objetos;MiClass,extens,int b;Auto,Lapiz,Rosa
+Consiste en implementar múltiples formas de un mismo método;Poliformismo;Herencia
+Es un conjunto de objetos que realizan una tarea determinada;Clase;Herencia
+Son las características que diferencian a un objeto de otro;Atributos;Variables
+Es la capacidad de crear varios métodos con el mismo nombre;Sobrecarga;Herencia
+Es la forma correcta de declarar un vector;int vector [] = new int [10];int vector = new int [10]
+Son arreglos de tipo bidimensional;Matrices;Vectores
+Son estructuras de datos que albergan valores del mismo tipo;Arreglos;Cubos
